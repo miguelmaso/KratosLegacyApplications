@@ -37,7 +37,6 @@
 //#include "custom_conditions/no_slip_fract_step.h"
 
 #include "includes/variables.h"
-#include "includes/legacy_structural_app_vars.h" //TODO: must be removed eventually
 #include "includes/condition.h"
 
 #include "custom_elements/fluid_2dcoupled.h"
@@ -71,7 +70,7 @@
 #include "custom_conditions/proj_dirichlet_cond.h"
 #include "custom_conditions/proj_dirichlet_cond3D.h"
 
-#include "custom_elements/fluid_2d_split.h"
+//#include "custom_elements/fluid_2d_split.h"
 
 //#include "custom_elements/fluid_2dlevelset.h"
 
