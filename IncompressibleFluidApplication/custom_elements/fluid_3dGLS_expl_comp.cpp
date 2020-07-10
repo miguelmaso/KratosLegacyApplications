@@ -94,7 +94,7 @@ void Fluid3DGLS_expl_comp::CalculateLumpedMass()
 
     //double Volume;
     //GeometryUtils::CalculateGeometryData(GetGeometry(),msDN_DX,msN,Volume);
-    double Volume = GeometryUtils::CalculateVolume3D(GetGeometry());
+    double Volume = GetGeometry().Volume();
     double lumped_mass_fac = Volume * 0.25;
     //filling in the diagonal of the lumped mass matrix,  (later I can change it to vector...)
     GetGeometry()[0].FastGetSolutionStepValue(NODAL_MASS)+=lumped_mass_fac*rho0;

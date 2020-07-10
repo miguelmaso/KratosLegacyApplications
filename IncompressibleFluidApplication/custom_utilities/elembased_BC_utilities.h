@@ -101,7 +101,7 @@ public:
                 iel++)
         {
             Geometry<Node<3> >& geom = iel->GetGeometry();
-            double Area = GeometryUtils::CalculateVolume2D(geom);
+            double Area = geom.Volume();
 
             double toll =  0.1*sqrt(Area * 2.30940108);//0.1*(h in a equailateral triangle of given area)
 

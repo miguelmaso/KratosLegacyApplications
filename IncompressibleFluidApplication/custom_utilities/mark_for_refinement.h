@@ -229,7 +229,7 @@ public:
 
             for( ModelPart::ElementIterator itElem = ThisModelPart.ElementsBegin(); itElem != ThisModelPart.ElementsEnd(); ++itElem)
             {
-                ElemSize = GeometryUtils::CalculateVolume2D(itElem->GetGeometry());
+                ElemSize = itElem->GetGeometry().Volume();
                 if (ElemSize < MinSize)
                 {
                     itElem->SetValue(SPLIT_ELEMENT,false);
@@ -242,7 +242,7 @@ public:
 
             for( ModelPart::ElementIterator itElem = ThisModelPart.ElementsBegin(); itElem != ThisModelPart.ElementsEnd(); ++itElem)
             {
-                ElemSize = GeometryUtils::CalculateVolume3D(itElem->GetGeometry());
+                ElemSize = itElem->GetGeometry().Volume();
                 if (ElemSize < MinSize)
                 {
                     itElem->SetValue(SPLIT_ELEMENT,false);
