@@ -309,7 +309,7 @@ public:
             local_p_norm += p*p;
         }
 
-        double p_norm = BaseType::GetModelPart().GetCommunicator().SumAll(local_p_norm);
+        double p_norm = BaseType::GetModelPart().GetCommunicator().GetDataCommunicator().SumAll(local_p_norm);
 
         //TODO: prepare for parallelization
         p_norm = sqrt(p_norm);
@@ -1008,7 +1008,7 @@ public:
             norm_v += v[2] * v[2];
         }
 
-        BaseType::GetModelPart().GetCommunicator().SumAll(norm_v);
+        BaseType::GetModelPart().GetCommunicator().GetDataCommunicator().SumAll(norm_v);
 
         norm_v = sqrt(norm_v);
 
