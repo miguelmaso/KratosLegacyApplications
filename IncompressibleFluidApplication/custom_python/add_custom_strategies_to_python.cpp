@@ -52,9 +52,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
  
 // External includes
-#include <boost/python.hpp>
-#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
-#include <boost/timer.hpp>
  
  
 // Project includes
@@ -117,10 +114,11 @@ namespace Kratos
 
 namespace Python
 {
-using namespace boost::python;
 
-void AddCustomStrategiesToPython()
+void AddCustomStrategiesToPython(pybind11::module& m)
 {
+    namespace py = pybind11;
+
     typedef UblasSpace<double, CompressedMatrix, Vector> SparseSpaceType;
     typedef UblasSpace<double, Matrix, Vector> LocalSpaceType;
 
@@ -188,31 +186,37 @@ void AddCustomStrategiesToPython()
     //                    .def("SavePressureIteration", &ResidualBasedFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SavePressureIteration)
     //                    .def("ApplyFractionalVelocityFixity", &ResidualBasedFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ApplyFractionalVelocityFixity);
 
-    class_< ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >,
-            bases< BaseSolvingStrategyType >, boost::noncopyable >
-            ("ResidualBasedNDFluidStrategy",
-             init < ModelPart&, LinearSolverType::Pointer, LinearSolverType::Pointer,
-             bool, bool, bool,
-             double, double,
-             int, int,
-             unsigned int, unsigned int, unsigned int,
-             bool
-             >())
-            .def("SolveStep1", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
-            .def("SolveStep2", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
-            .def("SolveStep3", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
-            .def("SolveStep4", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep4)
-            .def("ActOnLonelyNodes", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ActOnLonelyNodes)
-            .def("Clear", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear)
-            .def("FractionalVelocityIteration", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::FractionalVelocityIteration)
-            .def("ConvergenceCheck", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ConvergenceCheck)
-            .def("InitializeFractionalStep", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::InitializeFractionalStep)
-            .def("PredictVelocity", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::PredictVelocity)
-            .def("InitializeProjections", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::InitializeProjections)
-            .def("AssignInitialStepValues", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::AssignInitialStepValues)
-            .def("IterativeSolve", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::IterativeSolve)
-            .def("SavePressureIteration", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SavePressureIteration)
-            .def("ApplyFractionalVelocityFixity", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ApplyFractionalVelocityFixity);
+    py::class_<
+        ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >,
+        typename ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Pointer,
+        BaseSolvingStrategyType >
+        (m, "ResidualBasedNDFluidStrategy")
+        .def(py::init<
+            ModelPart&,
+            LinearSolverType::Pointer,
+            LinearSolverType::Pointer,
+            bool, bool, bool,
+            double, double,
+            int, int,
+            unsigned int, unsigned int, unsigned int,
+            bool
+            >())
+        .def("SolveStep1", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
+        .def("SolveStep2", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
+        .def("SolveStep3", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
+        .def("SolveStep4", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep4)
+        .def("ActOnLonelyNodes", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ActOnLonelyNodes)
+        .def("Clear", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear)
+        .def("FractionalVelocityIteration", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::FractionalVelocityIteration)
+        .def("ConvergenceCheck", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ConvergenceCheck)
+        .def("InitializeFractionalStep", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::InitializeFractionalStep)
+        .def("PredictVelocity", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::PredictVelocity)
+        .def("InitializeProjections", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::InitializeProjections)
+        .def("AssignInitialStepValues", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::AssignInitialStepValues)
+        .def("IterativeSolve", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::IterativeSolve)
+        .def("SavePressureIteration", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SavePressureIteration)
+        .def("ApplyFractionalVelocityFixity", &ResidualBasedNDFluidStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ApplyFractionalVelocityFixity)
+        ;
 
 
     //            class_< ResidualBasedFluidStrategyCoupled< SparseSpaceType, LocalSpaceType, LinearSolverType >,
@@ -243,20 +247,28 @@ void AddCustomStrategiesToPython()
     //                    .def("ApplyFractionalVelocityFixity", &ResidualBasedFluidStrategyCoupled< SparseSpaceType, LocalSpaceType, LinearSolverType >::ApplyFractionalVelocityFixity);
     //
 
-    class_< ConvergenceCriteria< SparseSpaceType, LocalSpaceType >, boost::noncopyable > ("ConvergenceCriteria", init<>())
-    .def("SetActualizeRHSFlag", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::SetActualizeRHSFlag)
-    .def("GetActualizeRHSflag", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::GetActualizeRHSflag)
-    .def("PreCriteria", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::PreCriteria)
-    .def("PostCriteria", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::PostCriteria)
-    .def("Initialize", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::Initialize)
-    .def("InitializeSolutionStep", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::InitializeSolutionStep)
-    .def("FinalizeSolutionStep", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::FinalizeSolutionStep)
-    ;
+    // py::class_<
+    //     ConvergenceCriteria< SparseSpaceType, LocalSpaceType >,
+    //     typename ConvergenceCriteria< SparseSpaceType, LocalSpaceType >::Pointer,
+    //     TConvergenceCriteriaType>
+    //     (m, "ConvergenceCriteria")
+    //     .def(py::init<>())
+    //     .def("SetActualizeRHSFlag", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::SetActualizeRHSFlag)
+    //     .def("GetActualizeRHSflag", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::GetActualizeRHSflag)
+    //     .def("PreCriteria", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::PreCriteria)
+    //     .def("PostCriteria", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::PostCriteria)
+    //     .def("Initialize", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::Initialize)
+    //     .def("InitializeSolutionStep", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::InitializeSolutionStep)
+    //     .def("FinalizeSolutionStep", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::FinalizeSolutionStep)
+    //     ;
 
-    class_< UPCriteria<SparseSpaceType, LocalSpaceType >,
-            bases<ConvergenceCriteria< SparseSpaceType, LocalSpaceType > >,
-            boost::noncopyable >
-            ("UPCriteria", init< double, double, double, double>());
+    py::class_<
+        UPCriteria<SparseSpaceType, LocalSpaceType >,
+        typename UPCriteria<SparseSpaceType, LocalSpaceType >::Pointer,
+        TConvergenceCriteriaType>
+        (m, "UPCriteria")
+        .def(py::init<double, double, double, double>())
+        ;
 
 
     /*class_< UPCriteriaParticle<SparseSpaceType, LocalSpaceType >,
@@ -264,138 +276,163 @@ void AddCustomStrategiesToPython()
              boost::noncopyable >
             ("UPCriteriaParticle", init< double, double, double, double>() );*/
 
-    class_< ResidualBasedLagrangianMonolithicScheme<SparseSpaceType, LocalSpaceType>,
-            bases< ResidualBasedIncrementalUpdateStaticScheme<SparseSpaceType, LocalSpaceType> >, boost::noncopyable >
-            (
-                "ResidualBasedLagrangianMonolithicScheme", init< int >()
-            );
+    py::class_<
+        ResidualBasedLagrangianMonolithicScheme<SparseSpaceType, LocalSpaceType>,
+        typename ResidualBasedLagrangianMonolithicScheme<SparseSpaceType, LocalSpaceType>::Pointer,
+        BaseSchemeType>
+        (m, "ResidualBasedLagrangianMonolithicScheme")
+        .def(py::init<int>())
+        ;
 
-    class_< ResidualBasedPredictorCorrectorVelocityBossakSchemeType,
-            bases< BaseSchemeType >, boost::noncopyable >
-            (
-                "ResidualBasedPredictorCorrectorVelocityBossakScheme", init< double, double >()
-            );
-
-
-    class_< ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressibleType,
-            bases< BaseSchemeType >, boost::noncopyable >
-            (
-                "ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressible", init< double, double >()
-            );
+    py::class_<
+        ResidualBasedPredictorCorrectorVelocityBossakSchemeType,
+        typename ResidualBasedPredictorCorrectorVelocityBossakSchemeType::Pointer,
+        BaseSchemeType>
+        (m, "ResidualBasedPredictorCorrectorVelocityBossakScheme")
+        .def(py::init<double, double>())
+        ;
 
 
+    py::class_<
+        ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressibleType,
+        typename ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressibleType::Pointer,
+        BaseSchemeType>
+        (m, "ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressible")
+        .def(py::init<double, double>())
+        ;
 
-	 class_< ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressiblePavelType,
-                    bases< BaseSchemeType >, boost::noncopyable >
-                    (
-                    "ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressiblePavel", init< double, double >()
-                    );
 
-	 class_< ResidualBasedPredictorCorrectorVelocityBossakScheme2stepType,
-                    bases< BaseSchemeType >, boost::noncopyable >
-                    (
-                    "ResidualBasedPredictorCorrectorVelocityBossakScheme2step", init< double, double >()
-                    );
 
- class_< ExplicitResidualBasedPredictorCorrectorVelocityBossakSchemeCompressibleType,
-            bases< ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressible<SparseSpaceType, LocalSpaceType> >, boost::noncopyable >
-            (
-                "ExplicitResidualBasedPredictorCorrectorVelocityBossakSchemeCompressible", init< double, double >()
-            );
+	py::class_<
+        ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressiblePavelType,
+        typename ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressiblePavelType::Pointer,
+        BaseSchemeType>
+        (m, "ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressiblePavel")
+        .def(py::init<double, double>())
+        ;
 
-          
+	py::class_<
+        ResidualBasedPredictorCorrectorVelocityBossakScheme2stepType,
+        typename ResidualBasedPredictorCorrectorVelocityBossakScheme2stepType::Pointer,
+        BaseSchemeType>
+        (m, "ResidualBasedPredictorCorrectorVelocityBossakScheme2step")
+        .def(py::init< double, double >())
+        ;
 
-    class_< ResidualBasedPredictorCorrectorVelocityCrNiSchemeCompressibleType,
-            bases< BaseSchemeType >, boost::noncopyable >
-            (
-                "ResidualBasedPredictorCorrectorVelocityCrNiSchemeCompressible", init< double, double >()
-            );
+    py::class_<
+        ExplicitResidualBasedPredictorCorrectorVelocityBossakSchemeCompressibleType,
+        typename ExplicitResidualBasedPredictorCorrectorVelocityBossakSchemeCompressibleType::Pointer,
+        BaseSchemeType>
+        (m, "ExplicitResidualBasedPredictorCorrectorVelocityBossakSchemeCompressible")
+        .def(py::init<double, double>())
+        ; 
 
-    class_< NewtonRaphsonStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >, bases< BaseSolvingStrategyType >, boost::noncopyable >
-    ("NewtonRaphsonStrategy",
-     init < ModelPart&, BaseSchemeType::Pointer, LinearSolverType::Pointer, TConvergenceCriteriaType::Pointer, int, bool, bool, bool
-     >())
-    ;
+    py::class_<
+        ResidualBasedPredictorCorrectorVelocityCrNiSchemeCompressibleType,
+        typename ResidualBasedPredictorCorrectorVelocityCrNiSchemeCompressibleType::Pointer,
+        BaseSchemeType>
+        (m, "ResidualBasedPredictorCorrectorVelocityCrNiSchemeCompressible")
+        .def(py::init<double, double>())
+        ;
 
-    class_< RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >,
+    py::class_<
+        NewtonRaphsonStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >,
+        typename NewtonRaphsonStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Pointer,
+        BaseSolvingStrategyType>
+        (m, "NewtonRaphsonStrategy")
+        .def(py::init<ModelPart&, BaseSchemeType::Pointer, LinearSolverType::Pointer, TConvergenceCriteriaType::Pointer, int, bool, bool, bool>())
+        ;
 
-            bases< BaseSolvingStrategyType >, boost::noncopyable >
-            ("RungeKuttaFracStepStrategy2D",
-             init < ModelPart&, LinearSolverType::Pointer,
-             bool, bool, bool
-             >())
-            .def("SolveStep1", &RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
-            .def("SolveStep2", &RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
-            .def("SolveStep3", &RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
-            .def("Clear", &RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear);
+    py::class_<
+        RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >,
+        typename RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::Pointer,
+        BaseSolvingStrategyType >
+        (m, "RungeKuttaFracStepStrategy2D")
+        .def(py::init<ModelPart&, LinearSolverType::Pointer, bool, bool, bool>())
+        .def("SolveStep1", &RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
+        .def("SolveStep2", &RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
+        .def("SolveStep3", &RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
+        .def("Clear", &RungeKuttaFracStepStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear)
+        ;
 
-    class_< RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >,
-            bases< BaseSolvingStrategyType >, boost::noncopyable >
-            ("RungeKuttaFracStepStrategy3D",
-             init < ModelPart&, LinearSolverType::Pointer,
-             bool, bool, bool
-             >())
-            .def("SolveStep1", &RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
-            .def("SolveStep2", &RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
-            .def("SolveStep3", &RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
-            .def("Clear", &RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear);
+    py::class_<
+        RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >,
+        typename RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::Pointer,
+        BaseSolvingStrategyType >
+        (m, "RungeKuttaFracStepStrategy3D")
+        .def(py::init<ModelPart&, LinearSolverType::Pointer, bool, bool, bool>())
+        .def("SolveStep1", &RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
+        .def("SolveStep2", &RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
+        .def("SolveStep3", &RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
+        .def("Clear", &RungeKuttaFracStepStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear)
+        ;
 
-    class_< RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >,
+    py::class_<
+        RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >,
+        typename RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::Pointer,
+        BaseSolvingStrategyType >
+        (m, "RungeKuttaFracStepCompStrategy2D")
+        .def(py::init<ModelPart&, LinearSolverType::Pointer, bool, bool, bool>())
+        .def("SolveStep1", &RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
+        .def("SolveStep2", &RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
+        .def("SolveStep3", &RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
+        .def("Clear", &RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear)
+        ;
 
-            bases< BaseSolvingStrategyType >, boost::noncopyable >
-            ("RungeKuttaFracStepCompStrategy2D",
-             init < ModelPart&, LinearSolverType::Pointer,
-             bool, bool, bool
-             >())
-            .def("SolveStep1", &RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
-            .def("SolveStep2", &RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
-            .def("SolveStep3", &RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
-            .def("Clear", &RungeKuttaFracStepCompStrategy < 2, SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear);
+    py::class_<
+        RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >,
+        typename RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::Pointer,
+        BaseSolvingStrategyType >
+        (m, "RungeKuttaFracStepCompStrategy3D")
+        .def(py::init<ModelPart&, LinearSolverType::Pointer, bool, bool, bool>())
+        .def("SolveStep1", &RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
+        .def("SolveStep2", &RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
+        .def("SolveStep3", &RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
+        .def("UpdateDensityIdealGas", &RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::UpdateDensityIdealGas)
+        .def("Clear", &RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear)
+        ;
 
-    class_< RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >,
-            bases< BaseSolvingStrategyType >, boost::noncopyable >
-            ("RungeKuttaFracStepCompStrategy3D",
-             init < ModelPart&, LinearSolverType::Pointer,
-             bool, bool, bool
-             >())
-            .def("SolveStep1", &RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
-            .def("SolveStep2", &RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
-            .def("SolveStep3", &RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
-            .def("UpdateDensityIdealGas", &RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::UpdateDensityIdealGas)
-            .def("Clear", &RungeKuttaFracStepCompStrategy < 3, SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear);
-
-    class_< FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >,
-            bases< BaseSolvingStrategyType >, boost::noncopyable >
-            ("FracStepStrategy",
-             init < ModelPart&,
-             SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType >&,
-             bool,
-             double, double,
-             int, int,
-             unsigned int, unsigned int,
-             bool
-             >())
-            .def("SolveStep2", &FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
-            .def("SolveStep3", &FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
-            .def("SolveStep4", &FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep4)
-            .def("Clear", &FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear)
-            .def("Compute", &FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Compute)
-            ;
-
+    py::class_<
+        FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >,
+        typename FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Pointer,
+        BaseSolvingStrategyType >
+        (m, "FracStepStrategy")
+        .def(py::init<
+            ModelPart&,
+            SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType >&,
+            bool,
+            double, double,
+            int, int,
+            unsigned int, unsigned int,
+            bool
+            >())
+        .def("SolveStep2", &FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
+        .def("SolveStep3", &FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
+        .def("SolveStep4", &FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep4)
+        .def("Clear", &FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear)
+        .def("Compute", &FracStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Compute)
+        ;
 
 
     //********************************************************************************************
 
-    class_< PressureSplittingBuilderAndSolverType, bases<BuilderAndSolverType>, boost::noncopyable >
-    ("PressureSplittingBuilderAndSolver", init < LinearSolverType::Pointer, LinearSolverType::Pointer, unsigned int, bool, double, double, double>());
+    py::class_<
+        PressureSplittingBuilderAndSolverType,
+        typename PressureSplittingBuilderAndSolverType::Pointer,
+        BuilderAndSolverType>
+        (m, "PressureSplittingBuilderAndSolver")
+        .def(py::init<LinearSolverType::Pointer, LinearSolverType::Pointer, unsigned int, bool, double, double, double>())
+        ;
 
     //********************************************************************************************
-    class_< SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType >,
-            boost::noncopyable >
-            ("SolverConfiguration", init< ModelPart&, unsigned int>())
-            .def("GetActualizeRHSflag", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::GetActualizeRHSflag)
-            .def("GetActualizeRHSflag", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::GetActualizeRHSflag)
-            ;
+    // py::class_<
+    //     SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType>,
+    //     typename SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType>::Pointer>
+    //     (m, "SolverConfiguration")
+    //     .def(py::init<ModelPart&, unsigned int>())
+    //     .def("GetActualizeRHSflag", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::GetActualizeRHSflag)
+    //     .def("GetActualizeRHSflag", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::GetActualizeRHSflag)
+    //     ;
 
     // class_< FractionalStepConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType >,
     //         bases< SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType > >,
@@ -409,52 +446,58 @@ void AddCustomStrategiesToPython()
     // 			        ("FractionalStepConfigurationSlip", init< ModelPart&, LinearSolverType::Pointer, LinearSolverType::Pointer,
     //                                                                         unsigned int, unsigned int, bool >() );
     //*******************************************************************************************
-    class_< MidPointPredictorCorrectorType,
-            bases< ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressible<SparseSpaceType, LocalSpaceType> >, boost::noncopyable >
-            (
-                "MidPointPredictorCorrector", init< double, double >()
-            );
+    py::class_<
+        MidPointPredictorCorrectorType,
+        typename MidPointPredictorCorrectorType::Pointer,
+        ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressible<SparseSpaceType, LocalSpaceType>>
+        (m, "MidPointPredictorCorrector")
+        .def(py::init<double, double>())
+        ;
+
     //*******************************************************************************************
-    class_< HydroMidPointPredictorCorrectorType,
-            bases< ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressible<SparseSpaceType, LocalSpaceType> >, boost::noncopyable >
-            (
-                "HydroMidPointPredictorCorrector", init< double, double >()
-            );
-
-
+    py::class_<
+        HydroMidPointPredictorCorrectorType,
+        typename HydroMidPointPredictorCorrectorType::Pointer,
+        ResidualBasedPredictorCorrectorVelocityBossakSchemeCompressible<SparseSpaceType, LocalSpaceType>>
+        (m, "HydroMidPointPredictorCorrector")
+        .def(py::init<double, double>())
+        ;
 
     //********************************************************************************************
-    class_< FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >,
-            bases< BaseSolvingStrategyType >, boost::noncopyable >
-            ("FractionalStepStrategy",
-             init < ModelPart&,
-             SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType >&,
-             bool,
-             double, double,
-             int, int,
-             unsigned int, unsigned int,
-             bool
-             >())
-            .def("SolveStep1", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
-            .def("SolveStep2", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
-            .def("SolveStep3", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
-            .def("SolveStep4", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep4)
-            .def("ActOnLonelyNodes", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ActOnLonelyNodes)
-            .def("Clear", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear)
-            .def("FractionalVelocityIteration", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::FractionalVelocityIteration)
-            .def("ConvergenceCheck", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ConvergenceCheck)
-            .def("InitializeFractionalStep", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::InitializeFractionalStep)
-            .def("PredictVelocity", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::PredictVelocity)
-            .def("InitializeProjections", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::InitializeProjections)
-            .def("AssignInitialStepValues", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::AssignInitialStepValues)
-            .def("IterativeSolve", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::IterativeSolve)
-            .def("SavePressureIteration", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SavePressureIteration)
-            .def("GetStageResidualNorm", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::GetStageResidualNorm)
-            .def("SetSlipProcess", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SetSlipProcess)
-            .def("ApplyFractionalVelocityFixity", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ApplyFractionalVelocityFixity)
-            .def("ComputeReactions", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ComputeReactions)
-            .def("AddInitializeIterationProcess", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::AddInitializeIterationProcess)
-            ;
+    py::class_<
+        FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >,
+        typename FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Pointer,
+        BaseSolvingStrategyType>
+        (m, "FractionalStepStrategy")
+        .def(py::init<
+            ModelPart&,
+            SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType >&,
+            bool,
+            double, double,
+            int, int,
+            unsigned int, unsigned int,
+            bool
+            >())
+        .def("SolveStep1", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep1)
+        .def("SolveStep2", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep2)
+        .def("SolveStep3", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep3)
+        .def("SolveStep4", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SolveStep4)
+        .def("ActOnLonelyNodes", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ActOnLonelyNodes)
+        .def("Clear", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::Clear)
+        .def("FractionalVelocityIteration", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::FractionalVelocityIteration)
+        .def("ConvergenceCheck", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ConvergenceCheck)
+        .def("InitializeFractionalStep", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::InitializeFractionalStep)
+        .def("PredictVelocity", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::PredictVelocity)
+        .def("InitializeProjections", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::InitializeProjections)
+        .def("AssignInitialStepValues", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::AssignInitialStepValues)
+        .def("IterativeSolve", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::IterativeSolve)
+        .def("SavePressureIteration", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SavePressureIteration)
+        .def("GetStageResidualNorm", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::GetStageResidualNorm)
+        .def("SetSlipProcess", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::SetSlipProcess)
+        .def("ApplyFractionalVelocityFixity", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ApplyFractionalVelocityFixity)
+        .def("ComputeReactions", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::ComputeReactions)
+        .def("AddInitializeIterationProcess", &FractionalStepStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType >::AddInitializeIterationProcess)
+        ;
 
     //                         //********************************************************************************************
     // 			class_< FractionalStepStrategySlip< SparseSpaceType, LocalSpaceType, LinearSolverType >,
@@ -488,18 +531,26 @@ void AddCustomStrategiesToPython()
 
     //********************************************************************************************
 
-    class_< ExplicitResidualBasedBuilderType, bases<ResidualBasedEliminationBuilderAndSolverType>, boost::noncopyable > ("ExplicitResidualBasedBuilder", init< LinearSolverType::Pointer > ());
+    py::class_<
+        ExplicitResidualBasedBuilderType,
+        typename ExplicitResidualBasedBuilderType::Pointer,
+        ResidualBasedEliminationBuilderAndSolverType>
+        (m, "ExplicitResidualBasedBuilder")
+        .def(py::init<LinearSolverType::Pointer>())
+        ;
     //********************************************************************************************
     //class_< ResidualBasedNewtonRaphsonStrategyParticle< SparseSpaceType, LocalSpaceType, LinearSolverType >,bases< BaseSolvingStrategyType >,  boost::noncopyable >
     //	("ResidualBasedNewtonRaphsonStrategyParticle",
     //	init<ModelPart&, BaseSchemeType::Pointer, LinearSolverType::Pointer, TConvergenceCriteriaType::Pointer, int, bool, bool, bool
     //	>() );
     //********************************************************************************************
-    class_< ExplicitResidualBasedNewtonRaphsonStrategyType,
-            bases< ResidualBasedNewtonRaphsonStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType > >, boost::noncopyable >
-            ("ExplicitResidualBasedNewtonRaphsonStrategy",
-             init < ModelPart&, BaseSchemeType::Pointer, LinearSolverType::Pointer, TConvergenceCriteriaType::Pointer, int, bool, bool, bool
-             >());
+    py::class_<
+        ExplicitResidualBasedNewtonRaphsonStrategyType,
+        typename ExplicitResidualBasedNewtonRaphsonStrategyType::Pointer,
+        ResidualBasedNewtonRaphsonStrategy< SparseSpaceType, LocalSpaceType, LinearSolverType > >
+        (m, "ExplicitResidualBasedNewtonRaphsonStrategy")
+        .def(py::init<ModelPart&, BaseSchemeType::Pointer, LinearSolverType::Pointer, TConvergenceCriteriaType::Pointer, int, bool, bool, bool>())
+        ;
 
     //*******************************************************************************************
     //class_< ResidualBasedLinearSchemeParticle< SparseSpaceType, LocalSpaceType>,
@@ -508,11 +559,13 @@ void AddCustomStrategiesToPython()
     //		"ResidualBasedLinearSchemeParticle", init< >()
     //	);
     //*******************************************************************************************
-    class_< ExplicitResidualBasedPredictorCorrectorVelocityBossakSchemeType,
-            bases< ResidualBasedPredictorCorrectorVelocityBossakScheme<SparseSpaceType, LocalSpaceType> >, boost::noncopyable >
-            (
-                "ExplicitResidualBasedPredictorCorrectorVelocityBossakScheme", init< double, double >()
-            );
+    py::class_<
+        ExplicitResidualBasedPredictorCorrectorVelocityBossakSchemeType,
+        typename ExplicitResidualBasedPredictorCorrectorVelocityBossakSchemeType::Pointer,
+        ResidualBasedPredictorCorrectorVelocityBossakScheme<SparseSpaceType, LocalSpaceType> >
+        (m, "ExplicitResidualBasedPredictorCorrectorVelocityBossakScheme")
+        .def(py::init< double, double >())
+        ;
     //*******************************************************************************************
     //class_< ResidualBasedLinearSchemeParticleMoveBack< SparseSpaceType, LocalSpaceType>,
     //		bases< BaseSchemeType >,  boost::noncopyable >
