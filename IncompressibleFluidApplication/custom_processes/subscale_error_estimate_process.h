@@ -136,7 +136,7 @@ public:
     ///@{
 
     //generate a list of new nodes refining accordingly to the REFINE_FLAG
-    void Execute()
+    void Execute() override
     {
         KRATOS_TRY
 
