@@ -94,7 +94,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //configuration files
 #include "custom_strategies/strategies/solver_configuration.h"
-#include "custom_strategies/strategies/fractionalstep_configuration.h"
+// #include "custom_strategies/strategies/fractionalstep_configuration.h"
 #include "custom_strategies/strategies/fractional_step_strategy.h"
 //#include "custom_strategies/strategies/residualbased_newton_raphson_strategy_particle.h"
 //#include "custom_strategies/strategies/residualbased_linear_scheme_particle.h"
@@ -110,7 +110,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // #include "custom_strategies/strategies/fractionalstep_configuration_slip.h"
 // #include "custom_strategies/strategies/fractional_step_strategy_slip.h"
 
-#include "custom_strategies/strategies/residualbased_predictorcorrector_velocity_bossak_scheme_dpg_enriched.h"
+// #include "custom_strategies/strategies/residualbased_predictorcorrector_velocity_bossak_scheme_dpg_enriched.h"
 
 namespace Kratos
 {
@@ -155,7 +155,7 @@ void AddCustomStrategiesToPython()
     typedef MidPointPredictorCorrector< SparseSpaceType, LocalSpaceType > MidPointPredictorCorrectorType;
 
     typedef HydroMidPointPredictorCorrector< SparseSpaceType, LocalSpaceType > HydroMidPointPredictorCorrectorType;
-    typedef ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnriched< SparseSpaceType, LocalSpaceType > ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnrichedType;
+    // typedef ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnriched< SparseSpaceType, LocalSpaceType > ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnrichedType;
 
     //********************************************************************
     //********************************************************************
@@ -397,11 +397,11 @@ void AddCustomStrategiesToPython()
             .def("GetActualizeRHSflag", &ConvergenceCriteria<SparseSpaceType, LocalSpaceType >::GetActualizeRHSflag)
             ;
 
-    class_< FractionalStepConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType >,
-            bases< SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType > >,
-            boost::noncopyable >
-            ("FractionalStepConfiguration", init< ModelPart&, LinearSolverType::Pointer, LinearSolverType::Pointer,
-             unsigned int, unsigned int >());
+    // class_< FractionalStepConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType >,
+    //         bases< SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType > >,
+    //         boost::noncopyable >
+    //         ("FractionalStepConfiguration", init< ModelPart&, LinearSolverType::Pointer, LinearSolverType::Pointer,
+    //          unsigned int, unsigned int >());
 
     //                        class_< FractionalStepConfigurationSlip<SparseSpaceType, LocalSpaceType, LinearSolverType >,
     //                                bases< SolverConfiguration<SparseSpaceType, LocalSpaceType, LinearSolverType > >,
@@ -519,16 +519,16 @@ void AddCustomStrategiesToPython()
     //	(
     //		"ResidualBasedLinearSchemeParticleMoveBack", init< >()
     //	);
-//     class_< ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnrichedType,
-//             bases< ResidualBasedPredictorCorrectorVelocityBossakScheme<SparseSpaceType, LocalSpaceType> >, boost::noncopyable >
-//             (
-//                 "ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnriched", init< double, double >()
-//             );
-    class_< ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnrichedType,
-            bases< ResidualBasedPredictorCorrectorVelocityBossakScheme<SparseSpaceType, LocalSpaceType> >, boost::noncopyable >
-            (
-                "ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnriched", init< double, double ,unsigned int >()
-            );
+    // class_< ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnrichedType,
+    //         bases< ResidualBasedPredictorCorrectorVelocityBossakScheme<SparseSpaceType, LocalSpaceType> >, boost::noncopyable >
+    //         (
+    //             "ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnriched", init< double, double >()
+    //         );
+    // class_< ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnrichedType,
+    //         bases< ResidualBasedPredictorCorrectorVelocityBossakScheme<SparseSpaceType, LocalSpaceType> >, boost::noncopyable >
+    //         (
+    //             "ResidualBasedPredictorCorrectorVelocityBossakSchemeDPGEnriched", init< double, double ,unsigned int >()
+    //         );
 }
 
 } // namespace Python.

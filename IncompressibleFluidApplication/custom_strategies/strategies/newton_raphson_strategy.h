@@ -332,7 +332,7 @@ public:
     // 2 -> printing linear solver data
     // 3 -> Print of debug informations:
     //		Echo of stiffness matrix, Dx, b...
-    void SetEchoLevel(int Level)
+    void SetEchoLevel(int Level) override
     {
         BaseType::mEchoLevel = Level;
         GetBuilderAndSolver()->SetEchoLevel(Level);
@@ -345,7 +345,7 @@ public:
     operation to predict the solution ... if it is not called a trivial predictor is used in which the
     values of the solution step of interest are assumed equal to the old values
     */
-    void Predict()
+    void Predict() override
     {
         KRATOS_TRY
 
@@ -409,7 +409,7 @@ public:
     the problem of interest is solved
     */
     //**********************************************************************
-    double Solve()
+    double Solve() override
     {
         KRATOS_TRY
 
@@ -648,7 +648,7 @@ public:
     - the convergence criteria used is the one used inside the "solve" step
     */
     //**********************************************************************
-    bool IsConverged()
+    bool IsConverged() override
     {
         KRATOS_TRY
 
@@ -657,7 +657,7 @@ public:
         TSystemVectorType& mb = *mpb;
 
 
-        if (mpConvergenceCriteria->mActualizeRHSIsNeeded == true)
+        if (mpConvergenceCriteria->GetActualizeRHSflag() == true)
         {
             GetBuilderAndSolver()->BuildRHS(GetScheme(),BaseType::GetModelPart(),mb);
         }
@@ -676,7 +676,7 @@ public:
 
     This operations should be called only when needed, before printing as it can involve a non negligible cost
     */
-    void CalculateOutputData()
+    void CalculateOutputData() override
     {
         TSystemMatrixType& mA = *mpA;
         TSystemVectorType& mDx = *mpDx;
@@ -688,7 +688,7 @@ public:
 
     //**********************************************************************
     //**********************************************************************
-    void Clear()
+    void Clear() override
     {
         KRATOS_TRY
         std::cout << "Newton Raphson strategy Clear function used" << std::endl;
@@ -844,7 +844,7 @@ protected:
     /*@{ */
     //**********************************************************************
     //**********************************************************************
-    void Initialize()
+    void Initialize() override
     {
         KRATOS_TRY
 
@@ -861,7 +861,7 @@ protected:
             pScheme->InitializeElements(BaseType::GetModelPart());
 
         //initialisation of the convergence criteria
-        if (mpConvergenceCriteria->mConvergenceCriteriaIsInitialized == false)
+        if (mpConvergenceCriteria->IsInitialized() == false)
             mpConvergenceCriteria->Initialize(BaseType::GetModelPart());
 
 
@@ -873,7 +873,7 @@ protected:
 
     //**********************************************************************
     //**********************************************************************
-    void InitializeSolutionStep()
+    void InitializeSolutionStep() override
     {
         KRATOS_TRY
 

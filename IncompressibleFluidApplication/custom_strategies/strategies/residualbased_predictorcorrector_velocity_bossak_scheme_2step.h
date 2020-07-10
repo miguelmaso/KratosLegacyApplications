@@ -199,7 +199,7 @@ namespace Kratos
 			TSystemMatrixType& A,
 			TSystemVectorType& Dv,
 			TSystemVectorType& b 
-			) 
+			) override
 		{
 			KRATOS_TRY
 			//KRATOS_WATCH("Update of the scheme PAVEL")
@@ -267,7 +267,7 @@ namespace Kratos
 			TSystemMatrixType& A,
 			TSystemVectorType& Dv,
 			TSystemVectorType& b
-			) 
+			) override
 		{
 			KRATOS_TRY
 			std::cout << "prediction" << std::endl;

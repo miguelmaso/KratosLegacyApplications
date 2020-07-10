@@ -210,7 +210,7 @@ public:
     void BuildRHS(
         typename TSchemeType::Pointer pScheme,
         ModelPart& r_model_part,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY
 
@@ -419,7 +419,7 @@ public:
         ModelPart& r_model_part,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY
         KRATOS_CATCH("")
@@ -431,7 +431,7 @@ public:
         ModelPart& r_model_part,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
     }
 
@@ -443,7 +443,7 @@ public:
         ModelPart& r_model_part,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         //refresh RHS to have the correct reactions
 
@@ -456,7 +456,7 @@ public:
         ModelPart& r_model_part,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {}
 
     //**************************************************************************
@@ -471,7 +471,7 @@ public:
     this function is intended to be called at the end of the solution step to clean up memory
     storage not needed
     */
-    void Clear()
+    void Clear() override
     {
 // 			this->mDofSet = DofsArrayType();
 
@@ -487,13 +487,13 @@ public:
     }
     //**************************************************************************
     //**************************************************************************
-    void ResizeAndInitializeVectors( typename TSchemeType::Pointer pScheme,
+    void ResizeAndInitializeVectors(
         typename TSchemeType::Pointer pScheme,
         TSystemMatrixPointerType& pA,
         TSystemVectorPointerType& pDx,
         TSystemVectorPointerType& pb,
         ModelPart& r_model_part
-    )
+    ) override
     {
         KRATOS_TRY
         KRATOS_WATCH("Explicit ResizeAndInitializeVectors");

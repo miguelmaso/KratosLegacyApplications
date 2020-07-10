@@ -221,7 +221,7 @@ public:
 
     //*********************************************************************************
     //**********************************************************************
-    double Solve()
+    double Solve() override
     {
         KRATOS_TRY
         Timer time;
@@ -671,7 +671,7 @@ public:
      *
      * @param Level
      */
-    virtual void SetEchoLevel(int Level)
+    virtual void SetEchoLevel(int Level) override
     {
         mecho_level = Level;
         mpfracvel_strategy->SetEchoLevel(Level);
@@ -681,7 +681,7 @@ public:
     //******************************************************************************************************
     //******************************************************************************************************
 
-    virtual void Clear()
+    virtual void Clear() override
     {
         int rank = BaseType::GetModelPart().GetCommunicator().MyPID();
         if (rank == 0) KRATOS_WATCH("FracStepStrategy Clear Function called");

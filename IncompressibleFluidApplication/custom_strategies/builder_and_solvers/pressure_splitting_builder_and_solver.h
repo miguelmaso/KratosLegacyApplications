@@ -220,7 +220,7 @@ public:
         typename TSchemeType::Pointer pScheme,
         ModelPart& rModelPart,
         TSystemMatrixType& A,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY
         if (!pScheme)
@@ -377,7 +377,7 @@ public:
     void BuildLHS(
         typename TSchemeType::Pointer pScheme,
         ModelPart& rModelPart,
-        TSystemMatrixType& A)
+        TSystemMatrixType& A) override
     {
         KRATOS_TRY;
         if (!pScheme)
@@ -452,7 +452,7 @@ public:
     void BuildLHS_CompleteOnFreeRows(
         typename TSchemeType::Pointer pScheme,
         ModelPart& rModelPart,
-        TSystemMatrixType& A)
+        TSystemMatrixType& A) override
     {
         KRATOS_TRY;
         if (!pScheme)
@@ -531,7 +531,7 @@ public:
     void SystemSolve(
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY;
 
@@ -664,7 +664,7 @@ public:
         ModelPart& rModelPart,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY
 
@@ -712,7 +712,7 @@ public:
         ModelPart& rModelPart,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY
 
@@ -731,7 +731,7 @@ public:
     void BuildRHS(
         typename TSchemeType::Pointer pScheme,
         ModelPart& rModelPart,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY;
         if (!pScheme)
@@ -820,7 +820,7 @@ public:
      */
     void SetUpDofSet(
         typename TSchemeType::Pointer pScheme,
-        ModelPart& rModelPart)
+        ModelPart& rModelPart) override
     {
         /* Scalar implementation. There is a working OpenMP version
          after this, which has been commented out because Getting the list of
@@ -847,7 +847,7 @@ public:
             for (typename Element::DofsVectorType::iterator i = ElementalDofList.begin();
                     i != ElementalDofList.end(); ++i)
             {
-                BaseType::mDofSet.push_back(i->get());
+                BaseType::mDofSet.push_back(*i);
             }
         }
 
@@ -861,7 +861,7 @@ public:
             for (typename Element::DofsVectorType::iterator i = ElementalDofList.begin();
                     i != ElementalDofList.end(); ++i)
             {
-                BaseType::mDofSet.push_back(i->get());
+                BaseType::mDofSet.push_back(*i);
             }
         }
 
@@ -959,7 +959,7 @@ public:
      *  during dof loops.
      * @param rModelPart A reference to the model part that contains the dofs
      */
-    void SetUpSystem(ModelPart& rModelPart)
+    void SetUpSystem(ModelPart& rModelPart) override
     {
         KRATOS_TRY;
 
@@ -1026,7 +1026,7 @@ public:
         TSystemVectorPointerType& pDx,
         TSystemVectorPointerType& pb,
         ModelPart& r_model_part
-        )
+        ) override
     {
         KRATOS_TRY;
 
@@ -1147,7 +1147,7 @@ public:
         ModelPart& rModelPart,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY;
         mFirstIteration = true;
@@ -1158,7 +1158,7 @@ public:
         ModelPart& rModelPart,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {}
 
     /// Calculate Reactions
@@ -1174,7 +1174,7 @@ public:
         ModelPart& rModelPart,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         //refresh RHS to have the correct reactions
         BuildRHS(pScheme, rModelPart, b);
@@ -1215,7 +1215,7 @@ public:
         ModelPart& rModelPart,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {}
 
 
@@ -1231,7 +1231,7 @@ public:
      * this function is intended to be called at the end of the solution
      * step to clean up memory storage not needed.
      */
-    void Clear()
+    void Clear() override
     {
         this->mDofSet.clear(); // = DofsArrayType();
 
@@ -1291,6 +1291,7 @@ protected:
         std::vector< std::vector<std::size_t> > indicesD(mPressFreeDofs);
         std::vector< std::vector<std::size_t> > indicesL(mPressFreeDofs);
 
+        ProcessInfo& CurrentProcessInfo = rModelPart.GetProcessInfo();
         Element::EquationIdVectorType ids;
         ids.reserve(16); // 16 as initial capacity: 4 Dofs per node assumed
 

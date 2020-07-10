@@ -188,7 +188,7 @@ public:
 
     /** Destructor.
     */
-    void Predict()
+    void Predict() override
     {
         KRATOS_TRY
         //OPERATIONS THAT SHOULD BE DONE ONCE - internal check to avoid repetitions
@@ -221,7 +221,7 @@ public:
     the problem of interest is solved
     */
     //**********************************************************************
-    double Solve()
+    double Solve() override
     {
         KRATOS_TRY
 

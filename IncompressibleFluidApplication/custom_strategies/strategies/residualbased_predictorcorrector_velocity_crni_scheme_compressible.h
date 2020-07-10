@@ -218,7 +218,7 @@ public:
         TSystemMatrixType& A,
         TSystemVectorType& Dv,
         TSystemVectorType& b
-    )
+    ) override
     {
         KRATOS_TRY
 
@@ -323,7 +323,7 @@ public:
         TSystemMatrixType& A,
         TSystemVectorType& Dv,
         TSystemVectorType& b
-    )
+    ) override
     {
         KRATOS_TRY
         std::cout << "prediction" << std::endl;
@@ -432,7 +432,7 @@ public:
         ModelPart& r_model_part,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY
 
@@ -540,7 +540,7 @@ public:
         ModelPart& r_model_part,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY
         //finalizes solution step for all of the elements

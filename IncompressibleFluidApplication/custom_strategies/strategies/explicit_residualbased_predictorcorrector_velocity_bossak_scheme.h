@@ -216,7 +216,7 @@ public:
 //************************************************************************************************
     void Initialize(
         ModelPart& r_model_part
-    )
+    ) override
     {
         KRATOS_TRY
         //mSchemeIsInitialized = true;
@@ -276,7 +276,7 @@ public:
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
         TSystemVectorType& b
-    )
+    ) override
     {
         ProcessInfo& CurrentProcessInfo = r_model_part.GetProcessInfo();
 
@@ -320,7 +320,7 @@ public:
         TSystemMatrixType& A,
         TSystemVectorType& Dv,
         TSystemVectorType& b
-    )
+    ) override
     {
         std::cout << "prediction" << std::endl;
         KRATOS_WATCH("PREDICT of ExplicitResidualBasedPredictorCorrectorVelocityBossakScheme");
@@ -395,7 +395,7 @@ public:
         ModelPart& r_model_part,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY
 
@@ -467,7 +467,7 @@ public:
         TSystemMatrixType& A,
         TSystemVectorType& Dv,
         TSystemVectorType& b
-    )
+    ) override
     {
         KRATOS_TRY
         KRATOS_WATCH("inside update of ExplicitResidualBasedPredictorCorrectorVelocityBossakScheme");
@@ -588,7 +588,7 @@ public:
         Element::Pointer rCurrentElement,
         LocalSystemVectorType& RHS_Contribution,
         Element::EquationIdVectorType& EquationId,
-        ProcessInfo& CurrentProcessInfo)
+        ProcessInfo& CurrentProcessInfo) override
     {
         KRATOS_TRY
 
@@ -617,7 +617,7 @@ public:
         Condition::Pointer rCurrentCondition,
         LocalSystemVectorType& RHS_Contribution,
         Element::EquationIdVectorType& EquationId,
-        ProcessInfo& CurrentProcessInfo)
+        ProcessInfo& CurrentProcessInfo) override
     {
         KRATOS_TRY
 

@@ -147,7 +147,7 @@ public:
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
         TSystemVectorType& b
-    )
+    ) override
     {
         KRATOS_TRY
 
@@ -175,7 +175,7 @@ public:
         ModelPart& r_model_part,
         TSystemMatrixType& A,
         TSystemVectorType& Dx,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY
 
@@ -217,7 +217,7 @@ public:
     void SetUpDofSet(
         typename TSchemeType::Pointer pScheme,
         ModelPart& r_model_part
-    )
+    ) override
     {
         KRATOS_TRY
 
@@ -252,7 +252,7 @@ public:
                 index = --fix_id;
             else
                 index = free_id++;
-            BaseType::mDofSet.push_back( pDof.get() );
+            BaseType::mDofSet.push_back( pDof );
             pDof->SetEquationId(index);
             aux(index) = mActiveNodes(i);
 
@@ -281,7 +281,7 @@ public:
     //**************************************************************************
     void SetUpSystem(
         ModelPart& r_model_part
-    )
+    ) override
     {
         KRATOS_TRY
 
@@ -295,7 +295,7 @@ public:
         TSystemVectorPointerType& pDx,
         TSystemVectorPointerType& pb,
         ModelPart& r_model_part
-    )
+    ) override
     {
         KRATOS_TRY
         if(pA == NULL) //if the pointer is not initialized initialize it to an empty matrix
@@ -351,7 +351,7 @@ public:
         typename TSchemeType::Pointer pScheme,
         ModelPart& r_model_part,
         TSystemMatrixType& A,
-        TSystemVectorType& b)
+        TSystemVectorType& b) override
     {
         KRATOS_TRY
         //typedef typename unsigned int size_type;

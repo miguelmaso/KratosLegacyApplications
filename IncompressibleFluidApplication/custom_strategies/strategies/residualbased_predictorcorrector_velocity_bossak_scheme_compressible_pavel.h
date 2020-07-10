@@ -199,7 +199,7 @@ namespace Kratos
 			TSystemMatrixType& A,
 			TSystemVectorType& Dv,
 			TSystemVectorType& b 
-			) 
+			) override
 		{
 			KRATOS_TRY
 			//KRATOS_WATCH("Update of the scheme PAVEL")
@@ -294,7 +294,7 @@ namespace Kratos
 			TSystemMatrixType& A,
 			TSystemVectorType& Dv,
 			TSystemVectorType& b
-			) 
+			) override
 		{
 			KRATOS_TRY
 			std::cout << "prediction" << std::endl;
@@ -394,7 +394,7 @@ namespace Kratos
 			ModelPart& r_model_part,
 			TSystemMatrixType& A,
 			TSystemVectorType& Dx,
-			TSystemVectorType& b)
+			TSystemVectorType& b) override
 		{
 			KRATOS_TRY
 			//KRATOS_WATCH("Init non-lin iteration of the scheme PAVEL")

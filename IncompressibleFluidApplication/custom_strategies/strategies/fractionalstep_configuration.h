@@ -228,7 +228,7 @@ public:
     /*@{ */
 
 
-    typename SolvingStrategy<TSparseSpace, TDenseSpace, TLinearSolver>::Pointer pGetStrategy(const std::string& strategy_name)
+    typename SolvingStrategy<TSparseSpace, TDenseSpace, TLinearSolver>::Pointer pGetStrategy(const std::string& strategy_name) override
     {
         KRATOS_TRY
 

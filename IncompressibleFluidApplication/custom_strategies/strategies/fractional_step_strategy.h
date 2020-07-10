@@ -196,7 +196,7 @@ public:
      * ready to be advanced in time
      * @return returns the norm of the pressure correction vector
      */
-    double Solve()
+    double Solve() override
     {
         KRATOS_TRY
         Timer::Start("solve");
@@ -1060,7 +1060,7 @@ public:
      *
      * @param Level
      */
-    virtual void SetEchoLevel(int Level)
+    virtual void SetEchoLevel(int Level) override
     {
         mecho_level = Level;
         mpfracvel_strategy->SetEchoLevel(Level);
@@ -1070,7 +1070,7 @@ public:
     //******************************************************************************************************
     //******************************************************************************************************
 
-    virtual void Clear()
+    virtual void Clear() override
     {
         int rank = BaseType::GetModelPart().GetCommunicator().MyPID();
         if (rank == 0) KRATOS_WATCH("FractionalStepStrategy Clear Function called");
@@ -1091,7 +1091,7 @@ public:
     /**
      * This function checks the input extensively to verify that no common error is present
      */
-    virtual int Check()
+    virtual int Check() override
     {
         KRATOS_TRY
 

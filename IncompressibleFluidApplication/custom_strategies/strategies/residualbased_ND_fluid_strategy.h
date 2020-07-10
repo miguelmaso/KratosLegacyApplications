@@ -253,7 +253,7 @@ public:
 
     //*********************************************************************************
     //**********************************************************************
-    double Solve()
+    double Solve() override
     {
         KRATOS_TRY
 
@@ -828,7 +828,7 @@ public:
 
     //******************************************************************************************************
     //******************************************************************************************************
-    virtual void SetEchoLevel(int Level)
+    virtual void SetEchoLevel(int Level) override
     {
         mfracvel_x_strategy->SetEchoLevel(Level);
         mfracvel_y_strategy->SetEchoLevel(Level);
@@ -840,7 +840,7 @@ public:
 
     //******************************************************************************************************
     //******************************************************************************************************
-    virtual void Clear()
+    virtual void Clear() override
     {
         KRATOS_WATCH("ResidualBasedNDFluidStrategy Clear Function called");
         mfracvel_x_strategy->Clear();

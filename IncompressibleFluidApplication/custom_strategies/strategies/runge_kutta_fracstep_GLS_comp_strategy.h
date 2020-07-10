@@ -210,19 +210,19 @@ public:
         {
             if(it->pGetDof(VELOCITY_X)->IsFixed() == true)
             {
-                mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_X).get() );
+                mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_X) );
                 mFixedVelocityDofValues.push_back( it->pGetDof(VELOCITY_X)->GetSolutionStepValue() );
             }
 
             if(it->pGetDof(VELOCITY_Y)->IsFixed() == true)
             {
-                mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_Y).get() );
+                mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_Y) );
                 mFixedVelocityDofValues.push_back( it->pGetDof(VELOCITY_Y)->GetSolutionStepValue() );
             }
 
             if(it->pGetDof(VELOCITY_Z)->IsFixed() == true)
             {
-                mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_Z).get() );
+                mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_Z) );
                 mFixedVelocityDofValues.push_back( it->pGetDof(VELOCITY_Z)->GetSolutionStepValue() );
             }
         }
@@ -279,7 +279,7 @@ public:
 
     //*********************************************************************************
     //**********************************************************************
-    double Solve()
+    double Solve() override
     {
         KRATOS_WATCH("Solve of Runge Kutta GLS Frac Step Strategy")
         //we estimate the time step for the explicit time integration schem estability
@@ -389,19 +389,19 @@ public:
             {
                 if(it->pGetDof(VELOCITY_X)->IsFixed() == true)
                 {
-                    mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_X).get() );
+                    mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_X) );
                     mFixedVelocityDofValues.push_back( it->pGetDof(VELOCITY_X)->GetSolutionStepValue() );
                 }
 
                 if(it->pGetDof(VELOCITY_Y)->IsFixed() == true)
                 {
-                    mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_Y).get() );
+                    mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_Y) );
                     mFixedVelocityDofValues.push_back( it->pGetDof(VELOCITY_Y)->GetSolutionStepValue() );
                 }
 
                 if(it->pGetDof(VELOCITY_Z)->IsFixed() == true)
                 {
-                    mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_Z).get() );
+                    mFixedVelocityDofSet.push_back( it->pGetDof(VELOCITY_Z) );
                     mFixedVelocityDofValues.push_back( it->pGetDof(VELOCITY_Z)->GetSolutionStepValue() );
                 }
             }
@@ -870,7 +870,7 @@ public:
     }
     //******************************************************************************************************
     //******************************************************************************************************
-    virtual void SetEchoLevel(int Level)
+    virtual void SetEchoLevel(int Level) override
     {
         //mfracvel_x_strategy->SetEchoLevel(Level);
         //mfracvel_y_strategy->SetEchoLevel(Level);
@@ -882,7 +882,7 @@ public:
 
     //******************************************************************************************************
     //******************************************************************************************************
-    virtual void Clear()
+    virtual void Clear() override
     {
         KRATOS_WATCH("RungeKuttaFractStepGLSStrategy Clear Function called");
         //mfracvel_x_strategy->Clear();
