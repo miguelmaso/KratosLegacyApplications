@@ -98,6 +98,8 @@ template<unsigned int TDim>
 class EdgesStructureType
 {
 public:
+    KRATOS_CLASS_POINTER_DEFINITION(EdgesStructureType);
+
     //component ij of the consistent mass matrix (M = Ni * Nj * dOmega)
     double Mass;
     //components kl of the laplacian matrix of edge ij (L = dNi/dxk * dNj/dxl * dOmega)
@@ -495,6 +497,8 @@ template<unsigned int TDim, class TSparseSpace>
 class MatrixContainer
 {
 public:
+    KRATOS_CLASS_POINTER_DEFINITION(MatrixContainer);
+
     //name for the self defined structure
     typedef EdgesStructureType<TDim> CSR_Tuple;
     typedef vector<CSR_Tuple> EdgesVectorType;

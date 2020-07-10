@@ -216,7 +216,7 @@ private:
         typedef std::size_t SizeType;
         //ask to the container for the list of candidate elements
         const array_1d<double,3>& coords = pparticle->Coordinates();
-        SizeType results_found = mpBinsObjectDynamic->SearchObjectsInCell(coords, result_begin, MaxNumberOfResults );
+        SizeType results_found = mpBinsObjectDynamic->SearchObjectsInCell(PointType{coords}, result_begin, MaxNumberOfResults );
 
         if(results_found>0)
         {

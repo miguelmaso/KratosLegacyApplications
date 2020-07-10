@@ -90,6 +90,7 @@ template<unsigned int TDim, class MatrixContainer, class TSparseSpace, class TLi
 class FluidSolver
 {
 public:
+    KRATOS_CLASS_POINTER_DEFINITION(FluidSolver);
     //name for the self defined structure
     typedef EdgesStructureType<TDim> CSR_Tuple;
     typedef vector<CSR_Tuple> EdgesVectorType;

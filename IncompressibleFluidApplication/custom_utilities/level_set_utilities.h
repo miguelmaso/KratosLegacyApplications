@@ -65,6 +65,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "includes/define.h"
 #include "includes/model_part.h"
 #include "includes/deprecated_variables.h"
+#include "includes/global_pointer_variables.h"
 #include "includes/node.h"
 #include "includes/cfd_variables.h"
 #include "utilities/geometry_utilities.h"
@@ -1152,7 +1153,7 @@ public:
                     if( jjj->FastGetSolutionStepValue(IS_FLUID) == 0 &&
                             jjj->GetValue(IS_VISITED) == 0.0 )
                     {
-                        layers[il+1].push_back( Node<3>::Pointer( *(jjj.base() ) ) );
+                        layers[il+1].push_back( &*jjj );
                         jjj->GetValue(IS_VISITED) = double(il+2.0);
                     }
                 }
@@ -1253,7 +1254,7 @@ public:
                         {
                             //add the node to the work array
                             i->GetValue(IS_VISITED) = connected_component_index;
-                            work_array.push_back( Node<3>::Pointer(*(i.base()) ) );
+                            work_array.push_back( &*i );
                         }
 
                     }

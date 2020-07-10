@@ -171,7 +171,7 @@ public:
 
         //perform mpi sync if needed
         double global_dt = dt;
-        mrModelPart.GetCommunicator().MinAll(global_dt);
+        mrModelPart.GetCommunicator().GetDataCommunicator().MinAll(global_dt);
         dt = global_dt;
 
         return dt;

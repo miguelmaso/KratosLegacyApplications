@@ -169,7 +169,7 @@ public:
                     if( jjj->FastGetSolutionStepValue(DISTANCE) > 0 &&
                             jjj->GetValue(IS_VISITED) == 0.0 )
                     {
-                        layers[il+1].push_back( Node<3>::Pointer( *(jjj.base() ) ) );
+                        layers[il+1].push_back( &*jjj );
                         jjj->GetValue(IS_VISITED) = double(il+2.0);
 // 									 KRATOS_WATCH("layer i");
 // 									 if(il == 0)

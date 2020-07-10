@@ -51,8 +51,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // System includes
 
 // External includes
-#include <boost/python.hpp>
-
 
 // Project includes
 #include "includes/define.h"
@@ -96,11 +94,12 @@ namespace Kratos
 namespace Python
 {
 
-void AddCustomUtilitiesToPython()
+void AddCustomUtilitiesToPython(pybind11::module& m)
 {
-    using namespace boost::python;
+    namespace py = pybind11;
 
-    class_<CoupledEulerianUlfUtils > ("CoupledEulerianUlfUtils", init<>())
+    py::class_<CoupledEulerianUlfUtils>(m, "CoupledEulerianUlfUtils")
+    .def(py::init<>())
     .def("SavePseudoLagPart", &CoupledEulerianUlfUtils::SavePseudoLagPart)
     .def("ApplyProjDirichlet", &CoupledEulerianUlfUtils::ApplyProjDirichlet)
     .def("FindInterface", &CoupledEulerianUlfUtils::FindInterface)
@@ -108,7 +107,8 @@ void AddCustomUtilitiesToPython()
     .def("DisableSubdomain", &CoupledEulerianUlfUtils::DisableSubdomain)
     ;
 
-    class_<EmbeddedUtils > ("EmbeddedUtils", init<>())
+    py::class_<EmbeddedUtils > (m, "EmbeddedUtils")
+    .def(py::init<>())
     // .def("SaveInterfaceElemsModelPart", &EmbeddedUtils::SaveInterfaceElemsModelPart)
     //.def "CreateIntersectionConditions", &EmbeddedUtils::CreateIntersectionConditions)
     .def("DisableSubdomain3D", &EmbeddedUtils::DisableSubdomain)
@@ -116,33 +116,33 @@ void AddCustomUtilitiesToPython()
     .def("ApplyProjDirichlet", &EmbeddedUtils::ApplyProjDirichlet)
     ;
 
-    class_<CalculateForcesUtils > ("CalculateForcesUtils", init<>())
+    py::class_<CalculateForcesUtils > (m, "CalculateForcesUtils")
+    .def(py::init<>())
     .def("CalculateForces3D", &CalculateForcesUtils::CalculateForces3D)
     .def("CalculateForces2D", &CalculateForcesUtils::CalculateForces2D)
     .def("CalculatePressureForces2D", &CalculateForcesUtils::CalculatePressureForces2D)
     ;
 
-    class_<RefinementUtilities > ("RefinementUtilities", init<>())
-            .def("MarkForRefinement", &RefinementUtilities::MarkForRefinement)
-            .def("UpdateErrorRatio", &RefinementUtilities::UpdateErrorRatio)
-            .def("RelativeSubscaleErrorEstimate", &RefinementUtilities::SubscaleErrorEstimate)
+    py::class_<RefinementUtilities > (m, "RefinementUtilities")
+    .def(py::init<>())
+    .def("MarkForRefinement", &RefinementUtilities::MarkForRefinement)
+    .def("UpdateErrorRatio", &RefinementUtilities::UpdateErrorRatio)
+    .def("RelativeSubscaleErrorEstimate", &RefinementUtilities::SubscaleErrorEstimate)
     ;
 
-
-    class_<AssignNoSlipCondition > ("AssignNoSlipCondition", init<>())
+    py::class_<AssignNoSlipCondition > (m, "AssignNoSlipCondition")
+    .def(py::init<>())
     .def("AssignNoSlipCondition2D", &AssignNoSlipCondition::AssignNoSlipCondition2D)
     ;
 
-
-
-    class_<SmagorinskyTurbulentModel > ("SmagorinskyTurbulentModel", init<>())
+    py::class_<SmagorinskyTurbulentModel> (m, "SmagorinskyTurbulentModel")
+    .def(py::init<>())
     .def("CalculateTurbulentViscosity2D", &SmagorinskyTurbulentModel::CalculateTurbulentViscosity < 2 >)
     .def("CalculateTurbulentViscosity3D", &SmagorinskyTurbulentModel::CalculateTurbulentViscosity < 3 >)
     ;
 
-
-
-    class_<LevelSetUtilities > ("LevelSetUtilities", init<>())
+    py::class_<LevelSetUtilities > (m, "LevelSetUtilities")
+    .def(py::init<>())
     .def("RegenerateFluidModelPart", &LevelSetUtilities::RegenerateFluidModelPart)
     .def("MarkNodesAsVisited", &LevelSetUtilities::MarkNodesAsVisited)
     .def("SetDistanceToNegative", &LevelSetUtilities::SetDistanceToNegative)
@@ -156,7 +156,8 @@ void AddCustomUtilitiesToPython()
     .def("ApplyMinimumExtrapolationPressureFix", &LevelSetUtilities::ApplyMinimumExtrapolationPressureFix)
     ;
 
-    class_<LevelSetUtilitiesImplicitExtrapolation > ("LevelSetUtilitiesImplicitExtrapolation", init<>())
+    py::class_<LevelSetUtilitiesImplicitExtrapolation > (m, "LevelSetUtilitiesImplicitExtrapolation")
+    .def(py::init<>())
     .def("RegenerateFluidModelPart", &LevelSetUtilitiesImplicitExtrapolation::RegenerateFluidModelPart)
     .def("MarkNodesAsVisited", &LevelSetUtilitiesImplicitExtrapolation::MarkNodesAsVisited)
     .def("SetDistanceToNegative", &LevelSetUtilitiesImplicitExtrapolation::SetDistanceToNegative)
@@ -166,7 +167,8 @@ void AddCustomUtilitiesToPython()
     .def("ApplyFluidProperties", &LevelSetUtilitiesImplicitExtrapolation::ApplyFluidProperties)
     ;
 
-    class_< ElemBasedDistanceUtilities > ("ElemBasedDistanceUtilities", init<ModelPart& >())
+    py::class_< ElemBasedDistanceUtilities > (m, "ElemBasedDistanceUtilities")
+    .def(py::init<ModelPart& >())
     .def("IdentifyFreeSurface", &ElemBasedDistanceUtilities::IdentifyFreeSurface)
     .def("MarkExternalAndMixedNodes", &ElemBasedDistanceUtilities::MarkExternalAndMixedNodes)
     .def("MarkInternalAndMixedNodes", &ElemBasedDistanceUtilities::MarkInternalAndMixedNodes)
@@ -175,11 +177,13 @@ void AddCustomUtilitiesToPython()
     .def("MarkNodesByDistance", &ElemBasedDistanceUtilities::MarkNodesByDistance)
     ;
 
-    class_< ElemBasedExtrapolationUtilities > ("ElemBasedExtrapolationUtilities", init<ModelPart& >())
+    py::class_< ElemBasedExtrapolationUtilities > (m, "ElemBasedExtrapolationUtilities")
+    .def(py::init<ModelPart& >())
     .def("ExtrapolateVelocities", &ElemBasedExtrapolationUtilities::ExtrapolateVelocities)
     ;
 
-    class_< ElemBasedBCUtilities > ("ElemBasedBCUtilities", init<ModelPart& >())
+    py::class_< ElemBasedBCUtilities > (m, "ElemBasedBCUtilities")
+    .def(py::init<ModelPart& >())
     .def("SetDividedElem_2D", &ElemBasedBCUtilities::SetDividedElem_2D)
     .def("SetPressureAndVelocityFixities", &ElemBasedBCUtilities::SetPressureAndVelocityFixities)
     .def("FreePressureAndVelocity", &ElemBasedBCUtilities::FreePressureAndVelocity)
@@ -196,20 +200,25 @@ void AddCustomUtilitiesToPython()
     //                           .def("SolveStep2",&ElementBasedNavierStokesSolver< 2, SparseSpaceType, LinearSolverType>::SolveStep2)
     //                           .def("SolveStep3",&ElementBasedNavierStokesSolver< 2, SparseSpaceType, LinearSolverType>::SolveStep3)
     //                         ;
-    class_< MatrixContainer < 2, SparseSpaceType>, boost::noncopyable > ("MatrixContainer2D", init< >())
+    py::class_< MatrixContainer < 2, SparseSpaceType>, typename MatrixContainer < 2, SparseSpaceType>::Pointer > (m, "MatrixContainer2D")
+    .def(py::init< >())
     .def("ConstructCSRVector", &MatrixContainer < 2, SparseSpaceType >::ConstructCSRVector)
     .def("BuildCSRData", &MatrixContainer < 2, SparseSpaceType >::BuildCSRData)
     .def("Clear", &MatrixContainer < 2, SparseSpaceType >::Clear)
     ;
 
-    class_< MatrixContainer < 3, SparseSpaceType>, boost::noncopyable > ("MatrixContainer3D", init< >())
+    py::class_< MatrixContainer < 3, SparseSpaceType>, typename MatrixContainer < 3, SparseSpaceType>::Pointer > (m, "MatrixContainer3D")
+    .def(py::init< >())
     .def("ConstructCSRVector", &MatrixContainer < 3, SparseSpaceType >::ConstructCSRVector)
     .def("BuildCSRData", &MatrixContainer < 3, SparseSpaceType >::BuildCSRData)
     .def("Clear", &MatrixContainer < 3, SparseSpaceType >::Clear)
     ;
 
-
-    class_< FluidSolver < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType>, boost::noncopyable > ("FluidSolver2D", init < MatrixContainer < 2, SparseSpaceType>&, ModelPart&, const double, const double, const Vector, bool, double, double, double, double, bool >())
+    py::class_<
+        FluidSolver < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType>,
+        typename FluidSolver < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType>::Pointer >
+    (m, "FluidSolver2D")
+    .def(py::init < MatrixContainer < 2, SparseSpaceType>&, ModelPart&, const double, const double, const Vector, bool, double, double, double, double, bool >())
     .def("Initialize", &FluidSolver < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType >::Initialize)
     .def("ComputeTimeStep", &FluidSolver < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType >::ComputeTimeStep)
     .def("SolveStep1", &FluidSolver < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType >::SolveStep1)
@@ -225,7 +234,11 @@ void AddCustomUtilitiesToPython()
     .def("ComputeMinimum_Havg", &FluidSolver < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType >::ComputeMinimum_Havg)
     ;
 
-    class_< FluidSolver < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType>, boost::noncopyable > ("FluidSolver3D", init < MatrixContainer < 3, SparseSpaceType>&, ModelPart&, const double, const double, const Vector, bool, double, double, double, double, bool >())
+    py::class_<
+        FluidSolver < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType>,
+        typename FluidSolver < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType>::Pointer>
+    (m, "FluidSolver3D")
+    .def(py::init < MatrixContainer < 3, SparseSpaceType>&, ModelPart&, const double, const double, const Vector, bool, double, double, double, double, bool >())
     .def("Initialize", &FluidSolver < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType >::Initialize)
     .def("ComputeTimeStep", &FluidSolver < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType >::ComputeTimeStep)
     .def("SolveStep1", &FluidSolver < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType >::SolveStep1)
@@ -277,44 +290,56 @@ void AddCustomUtilitiesToPython()
 //                     ;
 
 
-    class_< PureConvectionEdgeBased < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType>, boost::noncopyable > ("PureConvectionEdgeBased2D", init<MatrixContainer < 2, SparseSpaceType>&, ModelPart& >())
+    py::class_<
+        PureConvectionEdgeBased < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType>,
+        typename PureConvectionEdgeBased < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType>::Pointer>
+    (m, "PureConvectionEdgeBased2D")
+    .def(py::init<MatrixContainer < 2, SparseSpaceType>&, ModelPart& >())
     .def("Initialize", &PureConvectionEdgeBased < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType >::Initialize)
     .def("Solve", &PureConvectionEdgeBased < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType >::Solve)
     .def("ComputeTimeStep", &PureConvectionEdgeBased < 2, MatrixContainer < 2, SparseSpaceType>, SparseSpaceType, LinearSolverType >::ComputeTimeStep)
     ;
 
 
-    class_< PureConvectionEdgeBased < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType>, boost::noncopyable > ("PureConvectionEdgeBased3D", init<MatrixContainer < 3, SparseSpaceType>&, ModelPart& >())
+    py::class_<
+        PureConvectionEdgeBased < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType>,
+        typename PureConvectionEdgeBased < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType>::Pointer>
+    (m, "PureConvectionEdgeBased3D")
+    .def(py::init<MatrixContainer < 3, SparseSpaceType>&, ModelPart& >())
     .def("Initialize", &PureConvectionEdgeBased < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType >::Initialize)
     .def("Solve", &PureConvectionEdgeBased < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType >::Solve)
     .def("ComputeTimeStep", &PureConvectionEdgeBased < 3, MatrixContainer < 3, SparseSpaceType>, SparseSpaceType, LinearSolverType >::ComputeTimeStep)
     ;
 
-    class_< ParallelExtrapolationUtilities < 3 >, boost::noncopyable > ("ParallelExtrapolationUtilities3D", init<>())
+    py::class_<ParallelExtrapolationUtilities < 3 > > (m, "ParallelExtrapolationUtilities3D")
+    .def(py::init<>())
     .def("ExtrapolateVelocity", &ParallelExtrapolationUtilities < 3 > ::ExtrapolateVelocity)
     .def("ExtrapolatePressureProjection", &ParallelExtrapolationUtilities < 3 > ::ExtrapolatePressureProjection)
     .def("AssignFreeSurfacePressure", &ParallelExtrapolationUtilities < 3 > ::AssignFreeSurfacePressure)
 	.def("ExtrapolateTemperature", &ParallelExtrapolationUtilities < 3 > ::ExtrapolateTemperature)
     ;
 
-    class_< WaveGenerator, boost::noncopyable > ("WaveGenerator", init<>())
+    py::class_< WaveGenerator > (m, "WaveGenerator")
+    .def(py::init<>())
     .def("GenerateWaveXYPlane", &WaveGenerator::GenerateWaveXYPlane)
     .def("GenerateVolumeWaveXYPlane", &WaveGenerator::GenerateVolumeWaveXYPlane)
     .def("GenerateComposedVolumeWaveXYPlane", &WaveGenerator::GenerateComposedVolumeWaveXYPlane)
     ;
 
-    class_< EstimateDtUtil < 2 >, boost::noncopyable > ("EstimateDt2D", init<ModelPart&>())
+    py::class_< EstimateDtUtil <2> > (m, "EstimateDt2D")
+    .def(py::init<ModelPart&>())
     .def("EstimateDt", &EstimateDtUtil < 2 > ::EstimateDt)
     .def("CalculateLocalCFL", &EstimateDtUtil < 2 > ::CalculateLocalCFL)
     ;
 
-    class_< EstimateDtUtil < 3 >, boost::noncopyable > ("EstimateDt3D", init<ModelPart&>())
+    py::class_< EstimateDtUtil <3> > (m, "EstimateDt3D")
+    .def(py::init<ModelPart&>())
     .def("EstimateDt", &EstimateDtUtil < 3 > ::EstimateDt)
     .def("CalculateLocalCFL", &EstimateDtUtil < 3 > ::CalculateLocalCFL)
     ;
-    
-    
-    class_< LagrangianPFEM2Utilities < 3 >, boost::noncopyable > ("LagrangianPFEM2Utilities3D", init<>())
+
+    py::class_< LagrangianPFEM2Utilities <3> > (m, "LagrangianPFEM2Utilities3D")
+    .def(py::init<>())
     .def("DetectInletAndOutlet", &LagrangianPFEM2Utilities < 3 > ::DetectInletAndOutlet)
     .def("MoveMesh_ForwardEuler",	&LagrangianPFEM2Utilities < 3 > ::MoveMesh_ForwardEuler)
     .def("ActOnInlet" ,            	&LagrangianPFEM2Utilities < 3 > ::ActOnInlet)
@@ -351,7 +376,8 @@ void AddCustomUtilitiesToPython()
 
 
 
-    class_<LagrangianParticleUtils < 2 > >("LagrangianUtils2D", init<>())
+    py::class_<LagrangianParticleUtils <2> >(m, "LagrangianUtils2D")
+    .def(py::init<>())
     .def("StreamlineMove", &LagrangianParticleUtils < 2 > ::StreamlineMove)
     .def("StreamlineCorrect", &LagrangianParticleUtils < 2 > ::StreamlineCorrect)
     .def("Reseed", &LagrangianParticleUtils < 2 > ::Reseed)
@@ -364,9 +390,8 @@ void AddCustomUtilitiesToPython()
     .def("TransferToEulerianMeshShapeBased", &LagrangianParticleUtils < 2 > ::TransferToEulerianMeshShapeBased)
     ;
 
-
-
-    class_<ParticleUtils < 2 > >("ParticleUtils2D", init<>())
+    py::class_<ParticleUtils <2> >(m, "ParticleUtils2D")
+    .def(py::init<>())
     .def("StreamlineMove", &ParticleUtils < 2 > ::StreamlineMove)
     .def("Back", &ParticleUtils < 2 > ::Back)
     .def("Reseed", &ParticleUtils < 2 > ::Reseed)
@@ -386,21 +411,24 @@ void AddCustomUtilitiesToPython()
     ;
 
 
-    class_<CombustionUtilities >("CombustionUtilities", init<>())
+    py::class_<CombustionUtilities >(m, "CombustionUtilities")
+    .def(py::init<>())
     .def("Mixture_Fraction",&CombustionUtilities::Mixture_Fraction)
     .def("Enthalpy",&CombustionUtilities::Enthalpy)
     .def("Temperature",&CombustionUtilities::Temperature)
     ;
 
 
-    class_<FluidThermalSolverUtilities>("FluidThermalSolverUtilities", init<ModelPart&, ModelPart&>())
+    py::class_<FluidThermalSolverUtilities>(m, "FluidThermalSolverUtilities")
+    .def(py::init<ModelPart&, ModelPart&>())
     .def("ProjectFromThermalToFluid",&FluidThermalSolverUtilities::ProjectFromThermalToFluid)
     .def("ProjectFromFluidToThermal",&FluidThermalSolverUtilities::ProjectFromFluidToThermal)
     .def("ApplyTables",&FluidThermalSolverUtilities::ApplyTables)
     ;
 
 
-    class_< MoveParticleUtility<2> > ("MoveParticleUtility2D", init<ModelPart& , ModelPart& >())
+    py::class_< MoveParticleUtility<2> > (m, "MoveParticleUtility2D")
+    .def(py::init<ModelPart& , ModelPart& >())
     .def("MountBin", &MoveParticleUtility<2>::MountBin)
     .def("MoveParticles", &MoveParticleUtility<2>::MoveParticles)
     ;

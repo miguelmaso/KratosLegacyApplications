@@ -141,7 +141,7 @@ public:
         array_1d<double, 3 > veulerian;
         array_1d<double, 3 > acc_particle;
         array_1d<double, 3 > acc_particle1;
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         //double G;
         const int max_results = 1000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
@@ -278,7 +278,7 @@ public:
         //            KRATOS_WATCH("539")
         array_1d<double, 3 > veulerian;
         array_1d<double, 3 > acc_particle;
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 1000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
 
@@ -435,7 +435,7 @@ public:
 
         int last_id=id;
         //count particles that fall within an element
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 1000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
         int nparticles = rLagrangianModelPart.Nodes().size();
@@ -651,7 +651,7 @@ public:
         //            KRATOS_WATCH("539")
         array_1d<double, 3 > veulerian;
         array_1d<double, 3 > acc_particle;
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 1000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
         //subdivisions=10.0;
@@ -769,7 +769,7 @@ public:
         //            KRATOS_WATCH("539")
         array_1d<double, 3 > veulerian;
         array_1d<double, 3 > acc_particle;
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 1000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
         //subdivisions=10.0;
@@ -893,7 +893,7 @@ public:
         array_1d<double, 3 > veulerian;
         array_1d<double, 3 > acc_particle;
         array_1d<double, 3 > acc_particle1;
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         //double G;
         const int max_results = 1000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
@@ -1018,7 +1018,7 @@ public:
 
         //int last_id=id;
         //count particles that fall within an element
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 1000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
         int nparticles = rLagrangianModelPart.Nodes().size();
@@ -1120,7 +1120,7 @@ public:
 
         //int last_id=id;
         //count particles that fall within an element
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 1000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
         int nparticles = rLagrangianModelPart.Nodes().size();
@@ -1469,7 +1469,7 @@ public:
             }
         }
 
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 1000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
         const int nparticles = rLagrangianModelPart.Nodes().size();

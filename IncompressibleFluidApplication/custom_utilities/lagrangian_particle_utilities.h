@@ -60,7 +60,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <algorithm>
 
 // External includes
-
+#include "boost/timer.hpp"
 
 // Project includes
 #include "includes/define.h"
@@ -542,7 +542,7 @@ public:
         //KRATOS_WATCH("539")
         array_1d<double, 3 > veulerian;
         array_1d<double, 3 > acc_particle;
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 10000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
 
@@ -690,7 +690,7 @@ public:
         double density_inverse = 1.0 / density;
 
         array_1d<double, 3 > acc_particle;
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 10000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
 
@@ -853,7 +853,7 @@ public:
         }
 
         //count particles that fall within an element
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 10000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
         const int nparticles = rLagrangianModelPart.Nodes().size();
@@ -1169,7 +1169,7 @@ public:
             }
         }
 
-        array_1d<double, TDim + 1 > N;
+        Vector N;
         const int max_results = 10000;
         typename BinBasedFastPointLocator<TDim>::ResultContainerType results(max_results);
         const int nparticles = rLagrangianModelPart.Nodes().size();

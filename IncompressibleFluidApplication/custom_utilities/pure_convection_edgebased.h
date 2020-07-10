@@ -83,6 +83,8 @@ template<unsigned int TDim, class MatrixContainer, class TSparseSpace, class TLi
 class PureConvectionEdgeBased
 {
 public:
+    KRATOS_CLASS_POINTER_DEFINITION(PureConvectionEdgeBased);
+
     //name for the self defined structure
     typedef EdgesStructureType<TDim> CSR_Tuple;
     typedef std::vector<CSR_Tuple> EdgesVectorType;
