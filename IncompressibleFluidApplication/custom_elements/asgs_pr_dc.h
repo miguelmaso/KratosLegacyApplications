@@ -177,8 +177,8 @@ protected:
     ///@{
     /*void calculatedensity(Geometry< Node<3> > geom, double& density);*/
     void CalculateResidual(const MatrixType& K, VectorType& F);
-    void ComputeProjections(array_1d<double,6>& adv_proj , array_1d<double,3>& div_proj, const boost::numeric::ublas::bounded_matrix<double,3,2>& DN_DX,const double tauone,const double tautwo,const array_1d<double,3>& N,const double area, const double time);
-    virtual void calculatedensity(Geometry< Node<3> > geom, double& density, double& viscosity);
+    void ComputeProjections(array_1d<double,6>& adv_proj , array_1d<double,3>& div_proj, const boost::numeric::ublas::bounded_matrix<double,3,2>& DN_DX,const double tauone,const double tautwo,const array_1d<double,3>& N,const double area, const double time) override;
+    virtual void calculatedensity(Geometry< Node<3> > geom, double& density, double& viscosity) override;
 
 ///@}
     ///@name Protected Operators

@@ -122,14 +122,14 @@ public:
     ///@name Operations
     ///@{
 
-    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const;
+    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const override;
 
     //    void CalculateRightHandSide(VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo);
     //   void CalculateLocalSystem(MatrixType& rLeftHandSideMatrix, VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo);
-    void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo);
-    void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo);
-    void GetSecondDerivativesVector(Vector& values, int Step = 0);
-    void GetFirstDerivativesVector(Vector& values, int Step = 0);
+    void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo) override;
+    void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo) override;
+    void GetSecondDerivativesVector(Vector& values, int Step = 0) override;
+    void GetFirstDerivativesVector(Vector& values, int Step = 0) override;
 
 
     ///@}
@@ -147,13 +147,13 @@ public:
     ///@{
 
     /// Turn back information as a string.
-    virtual std::string Info() const
+    virtual std::string Info() const override
     {
         return "ASGSPRDC2D #" ;
     }
 
     /// Print information about this object.
-    virtual void PrintInfo(std::ostream& rOStream) const
+    virtual void PrintInfo(std::ostream& rOStream) const override
     {
         rOStream << Info() << Id();
     }
@@ -179,8 +179,8 @@ protected:
     ///@{
     /*void calculatedensity(Geometry< Node<3> > geom, double& density);*/
     //void CalculateResidual(const MatrixType& K, VectorType& F);
-    void ComputeProjections(array_1d<double,6>& adv_proj , array_1d<double,3>& div_proj, const boost::numeric::ublas::bounded_matrix<double,3,2>& DN_DX,const double tauone,const double tautwo,const array_1d<double,3>& N,const double area, const double time);
-    virtual void calculatedensity(Geometry< Node<3> > geom, double& density, double& viscosity);
+    void ComputeProjections(array_1d<double,6>& adv_proj , array_1d<double,3>& div_proj, const boost::numeric::ublas::bounded_matrix<double,3,2>& DN_DX,const double tauone,const double tautwo,const array_1d<double,3>& N,const double area, const double time) override;
+    virtual void calculatedensity(Geometry< Node<3> > geom, double& density, double& viscosity) override;
 
 ///@}
     ///@name Protected Operators

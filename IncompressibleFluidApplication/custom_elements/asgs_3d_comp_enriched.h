@@ -123,28 +123,28 @@ public:
     ///@name Operations
     ///@{
 
-    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const;
+    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const override;
 
-    void CalculateLocalSystem(MatrixType& rLeftHandSideMatrix, VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo);
+    void CalculateLocalSystem(MatrixType& rLeftHandSideMatrix, VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo) override;
 
-    void CalculateRightHandSide(VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo);
+    void CalculateRightHandSide(VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo) override;
     //virtual void CalculateLeftHandSide(MatrixType& rLeftHandSideMatrix, ProcessInfo& rCurrentProcessInfo);
 
-    void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo);
+    void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo) override;
 
-    void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo);
+    void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo) override;
 
 //	  void InitializeSolutionStep(ProcessInfo& CurrentProcessInfo);
 
     void Calculate( const Variable<array_1d<double,3> >& rVariable,
                     array_1d<double,3>& Output,
-                    const ProcessInfo& rCurrentProcessInfo);
+                    const ProcessInfo& rCurrentProcessInfo) override;
 
-    void GetFirstDerivativesVector(Vector& values, int Step = 0);
-    void GetSecondDerivativesVector(Vector& values, int Step = 0);
+    void GetFirstDerivativesVector(Vector& values, int Step = 0) override;
+    void GetSecondDerivativesVector(Vector& values, int Step = 0) override;
 
 //      void CalculateDampingMatrix(MatrixType& rDampingMatrix, ProcessInfo& rCurrentProcessInfo);
-    void CalculateLocalVelocityContribution(MatrixType& rDampingMatrix,VectorType& rRightHandSideVector,ProcessInfo& rCurrentProcessInfo);
+    void CalculateLocalVelocityContribution(MatrixType& rDampingMatrix,VectorType& rRightHandSideVector,ProcessInfo& rCurrentProcessInfo) override;
 
 
     ///@}
@@ -162,13 +162,13 @@ public:
     ///@{
 
     /// Turn back information as a string.
-    virtual std::string Info() const
+    virtual std::string Info() const override
     {
         return "ASGS3D_COMP_ENR #" ;
     }
 
     /// Print information about this object.
-    virtual void PrintInfo(std::ostream& rOStream) const
+    virtual void PrintInfo(std::ostream& rOStream) const override
     {
         rOStream << Info() << Id();
     }
@@ -200,11 +200,11 @@ protected:
     //Pavel
     virtual void CalculateEnrichmentTerms(MatrixType& DampingMatrix, VectorType& rRightHandSideVector, const double dt);
     virtual void CalculateEnrichmentOperators(boost::numeric::ublas::bounded_matrix<double, 1, 12 > & Dstar, boost::numeric::ublas::bounded_matrix<double, 12, 1 > & Gstar,  boost::numeric::ublas::bounded_matrix<double, 1, 4 > & Lap_star, boost::numeric::ublas::bounded_matrix<double, 1, 4 > & N_Nstar, double & f_star, double & Lap, double & Mstar, const double delta_t );
-    virtual void FinalizeSolutionStep( ProcessInfo& CurrentProcessInfo );
-    virtual void FinalizeNonLinearIteration( ProcessInfo& CurrentProcessInfo );
+    virtual void FinalizeSolutionStep( ProcessInfo& CurrentProcessInfo ) override;
+    virtual void FinalizeNonLinearIteration( ProcessInfo& CurrentProcessInfo ) override;
 	
     virtual void EvaluateAtGaussPoint(double& rResult, const Variable< double >& rVariable, const array_1d< double, 4 >& N, const int n_step );
-    virtual void GetValueOnIntegrationPoints( const Variable<double>& rVariable, std::vector<double>& rValues, const ProcessInfo& rCurrentProcessInfo );
+    virtual void GetValueOnIntegrationPoints( const Variable<double>& rVariable, std::vector<double>& rValues, const ProcessInfo& rCurrentProcessInfo ) override;
     //virtual double EvaluateSoundVelAtGaussPoint(const double distance_at_gauss_point, const double density, const double pressure, const double density_n, const double pressure_n);
     ///@}
     ///@name Protected Operators
@@ -264,7 +264,7 @@ protected:
     //Pavel: below is changed for several gauss points
     virtual void CalculateTau(const array_1d<double,4>& N, double& thawone, double& tautwo, const double time,const double partition_volume, const double density, const double viscosity);
 	virtual void CalculateDivStblTerm(MatrixType& K, const boost::numeric::ublas::bounded_matrix<double,4,3>& DN_DX, const double tautwo, const double Volume, const double density);
-    virtual void CalculateMassMatrix(MatrixType& rMassMatrix, ProcessInfo& rCurrentProcessInfo);
+    virtual void CalculateMassMatrix(MatrixType& rMassMatrix, ProcessInfo& rCurrentProcessInfo) override;
 	virtual void ChangeLumpedToConsistPressMassMatrix(VectorType& rRightHandSideVector, const double sound_vel, const double Volume, const double delta_t, const double density);
 private:
     ///@}
@@ -285,12 +285,12 @@ private:
     friend class Serializer;
 
 
-    virtual void save(Serializer& rSerializer) const
+    virtual void save(Serializer& rSerializer) const override
     {
         KRATOS_SERIALIZE_SAVE_BASE_CLASS(rSerializer, Element);
     }
 
-    virtual void load(Serializer& rSerializer)
+    virtual void load(Serializer& rSerializer) override
     {
         KRATOS_SERIALIZE_LOAD_BASE_CLASS(rSerializer, Element);
     }

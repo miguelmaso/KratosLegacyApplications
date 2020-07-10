@@ -142,13 +142,13 @@ public:
     * @param pProperties: the properties assigned to the new element
     * @return a Pointer to the new element
     */
-    virtual Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const;
+    virtual Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const override;
 
     ///Calculate the local external force vector and resize local sistem matrices
-    virtual void CalculateLocalSystem(MatrixType& rLeftHandSideMatrix, VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo);
+    virtual void CalculateLocalSystem(MatrixType& rLeftHandSideMatrix, VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo) override;
 
     ///Calulate the residual (RHS) of the solution system
-    virtual void CalculateRightHandSide(VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo);
+    virtual void CalculateRightHandSide(VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo) override;
     //virtual void CalculateLeftHandSide(MatrixType& rLeftHandSideMatrix, ProcessInfo& rCurrentProcessInfo);
 
     /// Provides the global indices for each one of this element's local rows
@@ -158,14 +158,14 @@ public:
     * @param rResult: A vector containing the global Id of each row
     * @param rCurrentProcessInfo: the current process info object
     */
-    virtual void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo);
+    virtual void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo) override;
 
     /// Returns a list of the element's Dofs
     /**
     * @param ElementalDofList: the list of DOFs
     * @param rCurrentProcessInfo: the current process info instance
     */
-    virtual void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo);
+    virtual void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo) override;
 
     /// Returns the values on the integration points
     /**
@@ -173,19 +173,19 @@ public:
     * @param Output: Values of variable on integration points
     * @param rCurrentProcessInfo: Process info instance
     */
-    virtual void GetValueOnIntegrationPoints(const Variable<double>& rVariable, std::vector<double>& rValues, const ProcessInfo& rCurrentProcessInfo);
+    virtual void GetValueOnIntegrationPoints(const Variable<double>& rVariable, std::vector<double>& rValues, const ProcessInfo& rCurrentProcessInfo) override;
 //	  void InitializeSolutionStep(ProcessInfo& CurrentProcessInfo);
 
     virtual void Calculate( const Variable<array_1d<double,3> >& rVariable,
                     array_1d<double,3>& Output,
-                    const ProcessInfo& rCurrentProcessInfo);
+                    const ProcessInfo& rCurrentProcessInfo) override;
 
-    virtual void GetFirstDerivativesVector(Vector& values, int Step = 0);
-    virtual void GetSecondDerivativesVector(Vector& values, int Step = 0);
+    virtual void GetFirstDerivativesVector(Vector& values, int Step = 0) override;
+    virtual void GetSecondDerivativesVector(Vector& values, int Step = 0) override;
 
 //      void CalculateDampingMatrix(MatrixType& rDampingMatrix, ProcessInfo& rCurrentProcessInfo);
     ///Calculate all the lhs contribution multiplied by velocity: i.e. the convective, pressure, viscous, darcy contributions
-    virtual void CalculateLocalVelocityContribution(MatrixType& rDampingMatrix,VectorType& rRightHandSideVector,ProcessInfo& rCurrentProcessInfo);
+    virtual void CalculateLocalVelocityContribution(MatrixType& rDampingMatrix,VectorType& rRightHandSideVector,ProcessInfo& rCurrentProcessInfo) override;
 
 
     ///@}
@@ -203,13 +203,13 @@ public:
     ///@{
 
     /// Turn back information as a string.
-    virtual std::string Info() const
+    virtual std::string Info() const override
     {
         return "NoNewtonianASGS2D #" ;
     }
 
     /// Print information about this object.
-    virtual void PrintInfo(std::ostream& rOStream) const
+    virtual void PrintInfo(std::ostream& rOStream) const override
     {
         rOStream << Info() << Id();
     }
@@ -265,7 +265,7 @@ protected:
     ///Add the projection in case OSS stabilization thechnique is chosen (OSS_SWITCH should be set = 1.0);
     virtual void AddProjectionForces(VectorType& F, const boost::numeric::ublas::bounded_matrix<double,3,2>& msDN_DX, const double area,const double thawone,const double thawtwo);
     ///Calcualte the mass contributions
-    virtual void CalculateMassMatrix(MatrixType& rMassMatrix, ProcessInfo& rCurrentProcessInfo);
+    virtual void CalculateMassMatrix(MatrixType& rMassMatrix, ProcessInfo& rCurrentProcessInfo) override;
 //         virtual void CalculateInternalForces(VectorType& rRightHandSideVector, const boost::numeric::ublas::bounded_matrix<double, 3, 2 > & DN_DX, const array_1d<double,3>& N, const double area);
     ///Calculate the shape function derivatives matrix
     virtual void CalculateB(	 boost::numeric::ublas::bounded_matrix<double, 3, 6 > & B,const boost::numeric::ublas::bounded_matrix<double, 3, 2 > & DN_DX);
@@ -339,7 +339,7 @@ private:
 
     friend class Serializer;
 
-    virtual void save(Serializer& rSerializer) const
+    virtual void save(Serializer& rSerializer) const override
     {
         KRATOS_SERIALIZE_SAVE_BASE_CLASS(rSerializer, Element);
         rSerializer.save("lhs0",mlhs0);
@@ -347,7 +347,7 @@ private:
         rSerializer.save("DevStress",mDevStress);
     }
 
-    virtual void load(Serializer& rSerializer)
+    virtual void load(Serializer& rSerializer) override
     {
         KRATOS_SERIALIZE_LOAD_BASE_CLASS(rSerializer, Element);
         rSerializer.load("lhs0",mlhs0);

@@ -123,11 +123,11 @@ public:
     ///@name Operations
     ///@{
 
-    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const;
-    void GetSecondDerivativesVector(Vector& values, int Step = 0);
-    void GetFirstDerivativesVector(Vector& values, int Step = 0);
-    void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo);
-    void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo);
+    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const override;
+    void GetSecondDerivativesVector(Vector& values, int Step = 0) override;
+    void GetFirstDerivativesVector(Vector& values, int Step = 0) override;
+    void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo) override;
+    void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo) override;
 
     ///@}
     ///@name Access
@@ -144,13 +144,13 @@ public:
     ///@{
 
     /// Turn back information as a string.
-    virtual std::string Info() const
+    virtual std::string Info() const override
     {
         return "ASGSCOMPPRDC3D #" ;
     }
 
     /// Print information about this object.
-    virtual void PrintInfo(std::ostream& rOStream) const
+    virtual void PrintInfo(std::ostream& rOStream) const override
     {
         rOStream << Info() << Id();
     }
@@ -175,10 +175,10 @@ protected:
     ///@name Protected member Variables
     ///@{
 
-    virtual void CalculateSoundVelocity(Geometry< Node<3> > geom, double& vc);
-    virtual void calculatedensity(Geometry< Node<3> > geom, double& density, double& viscosity);
-    virtual void CalculateTau(const array_1d<double,4>& N, double& thawone, double& thawtwo, const double time,const double area,const ProcessInfo& rCurrentProcessInfo);
-    virtual void CalculateResidual(const MatrixType& K, VectorType& F);
+    virtual void CalculateSoundVelocity(Geometry< Node<3> > geom, double& vc) override;
+    virtual void calculatedensity(Geometry< Node<3> > geom, double& density, double& viscosity) override;
+    virtual void CalculateTau(const array_1d<double,4>& N, double& thawone, double& thawtwo, const double time,const double area,const ProcessInfo& rCurrentProcessInfo) override;
+    virtual void CalculateResidual(const MatrixType& K, VectorType& F) override;
     ///@}
     ///@name Protected Operators
     ///@{
@@ -252,12 +252,12 @@ private:
     friend class Serializer;
 
 
-    virtual void save(Serializer& rSerializer) const
+    virtual void save(Serializer& rSerializer) const override
     {
         KRATOS_SERIALIZE_SAVE_BASE_CLASS(rSerializer, ASGSCompressible3D);
     }
 
-    virtual void load(Serializer& rSerializer)
+    virtual void load(Serializer& rSerializer) override
     {
         KRATOS_SERIALIZE_LOAD_BASE_CLASS(rSerializer, ASGSCompressible3D);
     }

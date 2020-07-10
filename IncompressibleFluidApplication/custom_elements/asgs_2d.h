@@ -132,28 +132,28 @@ public:
     ///@name Operations
     ///@{
 
-    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const;
+    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const override;
 
-    void CalculateLocalSystem(MatrixType& rLeftHandSideMatrix, VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo);
+    void CalculateLocalSystem(MatrixType& rLeftHandSideMatrix, VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo) override;
 
-    void CalculateRightHandSide(VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo);
+    void CalculateRightHandSide(VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo) override;
     //virtual void CalculateLeftHandSide(MatrixType& rLeftHandSideMatrix, ProcessInfo& rCurrentProcessInfo);
 
-    void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo);
+    void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo) override;
 
     /// The DOF´s are VELOCITY_X, VELOCITY_Y and PRESSURE
     /**
      * @param ElementalDofList: the list of DOFs
      * @param rCurrentProcessInfo: the current process info instance
     */
-    void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo);
+    void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo) override;
 
     /// To print a scalar value on Gausse points
     /**
      * @param rVariable: The "rVariable" must be either "TAUONE" or "TAUTWO"
      * @param rCurrentProcessInfo: the current process info instance
     */
-    void GetValueOnIntegrationPoints(const Variable<double>& rVariable, std::vector<double>& rValues, const ProcessInfo& rCurrentProcessInfo);
+    void GetValueOnIntegrationPoints(const Variable<double>& rVariable, std::vector<double>& rValues, const ProcessInfo& rCurrentProcessInfo) override;
 //	  void InitializeSolutionStep(ProcessInfo& CurrentProcessInfo);
 
     /// To calculate NODAL_MASS or The OSS projections
@@ -165,7 +165,7 @@ public:
      */
     void Calculate( const Variable<array_1d<double,3> >& rVariable,
                     array_1d<double,3>& Output,
-                    const ProcessInfo& rCurrentProcessInfo);
+                    const ProcessInfo& rCurrentProcessInfo) override;
     /// To calculate minimum length inside element
     /**
      * @param rVariable: Is not used
@@ -175,13 +175,13 @@ public:
     // void Calculate( const Variable<double>& rVariable, double& Output, const ProcessInfo& rCurrentProcessInfo);
 
     /// Returns vx, vy, p for each node
-    void GetFirstDerivativesVector(Vector& values, int Step = 0);
+    void GetFirstDerivativesVector(Vector& values, int Step = 0) override;
 
     /// Returns ax, ay, 0 for each node
-    void GetSecondDerivativesVector(Vector& values, int Step = 0);
+    void GetSecondDerivativesVector(Vector& values, int Step = 0) override;
 
 //      void CalculateDampingMatrix(MatrixType& rDampingMatrix, ProcessInfo& rCurrentProcessInfo);
-    void CalculateLocalVelocityContribution(MatrixType& rDampingMatrix,VectorType& rRightHandSideVector,ProcessInfo& rCurrentProcessInfo);
+    void CalculateLocalVelocityContribution(MatrixType& rDampingMatrix,VectorType& rRightHandSideVector,ProcessInfo& rCurrentProcessInfo) override;
 
 
     ///@}
@@ -199,13 +199,13 @@ public:
     ///@{
 
     /// Turn back information as a string.
-    virtual std::string Info() const
+    virtual std::string Info() const override
     {
         return "ASGS2D #" ;
     }
 
     /// Print information about this object.
-    virtual void PrintInfo(std::ostream& rOStream) const
+    virtual void PrintInfo(std::ostream& rOStream) const override
     {
         rOStream << Info() << Id();
     }
@@ -343,7 +343,7 @@ protected:
     */
     virtual void AddProjectionForces(VectorType& F, const boost::numeric::ublas::bounded_matrix<double,3,2>& msDN_DX, const double area,const double thawone,const double thawtwo);
 
-    virtual void CalculateMassMatrix(MatrixType& rMassMatrix, ProcessInfo& rCurrentProcessInfo);
+    virtual void CalculateMassMatrix(MatrixType& rMassMatrix, ProcessInfo& rCurrentProcessInfo) override;
 private:
     ///@name Static Member Variables
     ///@{
@@ -360,12 +360,12 @@ private:
 //         {
 //         }
 
-    virtual void save(Serializer& rSerializer) const
+    virtual void save(Serializer& rSerializer) const override
     {
         KRATOS_SERIALIZE_SAVE_BASE_CLASS(rSerializer, Element);
     }
 
-    virtual void load(Serializer& rSerializer)
+    virtual void load(Serializer& rSerializer) override
     {
         KRATOS_SERIALIZE_LOAD_BASE_CLASS(rSerializer, Element);
     }

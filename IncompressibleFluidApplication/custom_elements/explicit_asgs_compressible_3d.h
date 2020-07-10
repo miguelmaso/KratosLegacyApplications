@@ -124,24 +124,24 @@ public:
     ///@name Operations
     ///@{
 
-    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const;
+    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const override;
 
-    void GetSecondDerivativesVector(Vector& values, int Step = 0);
-    void GetFirstDerivativesVector(Vector& values, int Step = 0);
+    void GetSecondDerivativesVector(Vector& values, int Step = 0) override;
+    void GetFirstDerivativesVector(Vector& values, int Step = 0) override;
 
-    void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo);
-    void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo);
-    void CalculateMassMatrix(MatrixType& rMassMatrix, ProcessInfo& rCurrentProcessInfo);
+    void EquationIdVector(EquationIdVectorType& rResult, ProcessInfo& rCurrentProcessInfo) override;
+    void GetDofList(DofsVectorType& ElementalDofList,ProcessInfo& CurrentProcessInfo) override;
+    void CalculateMassMatrix(MatrixType& rMassMatrix, ProcessInfo& rCurrentProcessInfo) override;
 
-    void CalculateLocalVelocityContribution(MatrixType& rDampingMatrix,VectorType& rRightHandSideVector,ProcessInfo& rCurrentProcessInfo);
+    void CalculateLocalVelocityContribution(MatrixType& rDampingMatrix,VectorType& rRightHandSideVector,ProcessInfo& rCurrentProcessInfo) override;
     void Calculate( const Variable<array_1d<double,3> >& rVariable,
                     array_1d<double,3>& Output,
-                    const ProcessInfo& rCurrentProcessInfo);
-    void CalculateLocalSystem(MatrixType& rLeftHandSideMatrix, VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo);
+                    const ProcessInfo& rCurrentProcessInfo) override;
+    void CalculateLocalSystem(MatrixType& rLeftHandSideMatrix, VectorType& rRightHandSideVector, ProcessInfo& rCurrentProcessInfo) override;
     void Calculate( const Variable<double>& rVariable,
                     double& Output,
-                    const ProcessInfo& rCurrentProcessInfo);
-    void GetValueOnIntegrationPoints(const Variable<double>& rVariable, std::vector<double>& rValues, const ProcessInfo& rCurrentProcessInfo);
+                    const ProcessInfo& rCurrentProcessInfo) override;
+    void GetValueOnIntegrationPoints(const Variable<double>& rVariable, std::vector<double>& rValues, const ProcessInfo& rCurrentProcessInfo) override;
 
     ///@}
     ///@name Access
@@ -158,13 +158,13 @@ public:
     ///@{
 
     /// Turn back information as a string.
-    virtual std::string Info() const
+    virtual std::string Info() const override
     {
         return "ExplicitASGSCompressible3D #" ;
     }
 
     /// Print information about this object.
-    virtual void PrintInfo(std::ostream& rOStream) const
+    virtual void PrintInfo(std::ostream& rOStream) const override
     {
         rOStream << Info() << Id();
     }
@@ -188,15 +188,15 @@ protected:
     ///@}
     ///@name Protected member Variables
     ///@{
-    virtual void CalculateMassContribution(MatrixType& K,const double time,const double volume);
+    virtual void CalculateMassContribution(MatrixType& K,const double time,const double volume) override;
     virtual void CalculateSoundVelocity(Geometry< Node<3> > geom, double& vc);
-    virtual void calculatedensity(Geometry< Node<3> > geom, double& density, double& viscosity);
-    virtual void CalculateTau(const array_1d<double,4>& N,double& thawone, double& thawtwo, const double time,const double area,const ProcessInfo& rCurrentProcessInfo);
-    virtual void CalculateResidual(const MatrixType& K, VectorType& F);
-    virtual void AddBodyForceAndMomentum(VectorType& F,const boost::numeric::ublas::bounded_matrix<double,4,3>& DN_DX,const array_1d<double,4>& N, const double time,const double area,const double thawone,const double thawtwo);
-    virtual void CalculateGradStblAllTerms(MatrixType& K,VectorType& F,const boost::numeric::ublas::bounded_matrix<double,4,3>& msDN_DX,const array_1d<double,4>& N, const double time,const double thawone,const double volume);
+    virtual void calculatedensity(Geometry< Node<3> > geom, double& density, double& viscosity) override;
+    virtual void CalculateTau(const array_1d<double,4>& N,double& thawone, double& thawtwo, const double time,const double area,const ProcessInfo& rCurrentProcessInfo) override;
+    virtual void CalculateResidual(const MatrixType& K, VectorType& F) override;
+    virtual void AddBodyForceAndMomentum(VectorType& F,const boost::numeric::ublas::bounded_matrix<double,4,3>& DN_DX,const array_1d<double,4>& N, const double time,const double area,const double thawone,const double thawtwo) override;
+    virtual void CalculateGradStblAllTerms(MatrixType& K,VectorType& F,const boost::numeric::ublas::bounded_matrix<double,4,3>& msDN_DX,const array_1d<double,4>& N, const double time,const double thawone,const double volume) override;
     virtual void CalculateDivPdotStblTerms(MatrixType& K,VectorType& F,const boost::numeric::ublas::bounded_matrix<double,4,3>& msDN_DX,const array_1d<double,4>& N, const double time,const double thawone,const double volume);
-    virtual void CalculatePressureTerm(MatrixType& K,const boost::numeric::ublas::bounded_matrix<double,4,3>& DN_DX, const array_1d<double,4>& N,const double time ,const double volume);
+    virtual void CalculatePressureTerm(MatrixType& K,const boost::numeric::ublas::bounded_matrix<double,4,3>& DN_DX, const array_1d<double,4>& N,const double time ,const double volume) override;
     virtual void CalcualteDCOperatior(MatrixType& K,const boost::numeric::ublas::bounded_matrix<double,4,3>& DN_DX, const double volume);
     virtual void CalculateArtifitialViscosity(double& art_visc,double& Pr_art_visc ,const boost::numeric::ublas::bounded_matrix<double,4,3>&DN_DX);
     virtual void CalculateCharectristicLength(double& ch_length, const boost::numeric::ublas::bounded_matrix<double,4,3>& DN_DX,double& norm_grad );
@@ -261,13 +261,13 @@ private:
     friend class Serializer;
 
 
-    virtual void save(Serializer& rSerializer) const
+    virtual void save(Serializer& rSerializer) const override
     {
 
         KRATOS_SERIALIZE_SAVE_BASE_CLASS(rSerializer, ASGS3D);
     }
 
-    virtual void load(Serializer& rSerializer)
+    virtual void load(Serializer& rSerializer) override
     {
         KRATOS_SERIALIZE_LOAD_BASE_CLASS(rSerializer, ASGS3D);
     }

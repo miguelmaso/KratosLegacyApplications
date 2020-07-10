@@ -133,7 +133,7 @@ public:
     ///@name Operations
     ///@{
 
-    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const;
+    Element::Pointer Create(IndexType NewId, NodesArrayType const& ThisNodes,  PropertiesType::Pointer pProperties) const override;
 
     ///@}
     ///@name Access
@@ -149,13 +149,13 @@ public:
     ///@{
 
     /// Turn back information as a string.
-    virtual std::string Info() const
+    virtual std::string Info() const override
     {
         return "BinghamNonNewtonianASGS2D #" ;
     }
 
     /// Print information about this object.
-    virtual void PrintInfo(std::ostream& rOStream) const
+    virtual void PrintInfo(std::ostream& rOStream) const override
     {
         rOStream << Info() << Id();
     }
@@ -182,7 +182,7 @@ protected:
     virtual void CalculateApparentViscosity(double & app_mu, double & app_mu_derivative,
         array_1d<double, 3 >&  grad_sym_vel, double & gamma_dot,
         const boost::numeric::ublas::bounded_matrix<double, 3, 6 > & B,
-        const double & mu, const double & m_coef);
+        const double & mu, const double & m_coef) override;
 // //        virtual void CalculateApparentViscosityStbl(double & ApparentViscosity, double & ApparentViscosityDerivative , array_1d<double,3> & grad_sym_vel, double & gamma_dot, const boost::numeric::ublas::bounded_matrix<double, 3, 6 > & B, const double & mu);
     ///@name Protected Operators
     ///@{
@@ -230,12 +230,12 @@ private:
     {
     }
 
-    virtual void save(Serializer& rSerializer) const
+    virtual void save(Serializer& rSerializer) const override
     {
         KRATOS_SERIALIZE_SAVE_BASE_CLASS(rSerializer, NoNewtonianASGS2D);
     }
 
-    virtual void load(Serializer& rSerializer)
+    virtual void load(Serializer& rSerializer) override
     {
         KRATOS_SERIALIZE_LOAD_BASE_CLASS(rSerializer, NoNewtonianASGS2D);
     }
